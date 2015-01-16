@@ -5,8 +5,6 @@ namespace CrudUsers\Traits;
 trait UserEntityResetPasswordTrait
 {
 
-    use RandomStringTrait;
-
     public function attemptResetPassword($resetCode, $newPassword)
     {
         if ($this->checkResetPasswordCode($resetCode)) {
@@ -21,7 +19,7 @@ trait UserEntityResetPasswordTrait
 
     public function checkResetPasswordCode($resetCode)
     {
-        return ($this->_properties['reset_password_code'] == $resetCode);
+        return $this->reset_password_code == $resetCode;
     }
 
     public function clearResetPassword()
@@ -33,8 +31,9 @@ trait UserEntityResetPasswordTrait
 
     public function getResetPasswordCode()
     {
-        $this->_persist(['reset_password_code' => $this->randomizedString()]);
-        return $this->reset_password_code;
+        $resetCode = $this->randomizedString();
+        $this->_persist(['reset_password_code' => $resetCode]);
+        return $resetCode;
     }
 
 }

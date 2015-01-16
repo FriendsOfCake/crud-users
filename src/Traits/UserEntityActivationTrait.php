@@ -23,8 +23,9 @@ trait UserEntityActivationTrait
 
     public function getActivationCode()
     {
-        $this->_persist(['activation_code' => $this->randomizedString()]);
-        return $this->activation_code;
+        $activationCode = $this->randomizedString();
+        $this->_persist(['activation_code' => $activationCode]);
+        return $activationCode;
     }
 
     public function isActivated()

@@ -2,6 +2,8 @@
 
 namespace CrudUsers\Traits;
 
+use RuntimeException;
+
 trait RandomStringTrait
 {
     public function randomizedString($length = 42)
