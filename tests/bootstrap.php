@@ -75,4 +75,4 @@ Cake\Datasource\ConnectionManager::config('test', [
     'timezone' => 'UTC'
 ]);
 
-Plugin::load('CrudUsers', ['path' => ROOT]);
+Plugin::load('CrudUsers', ['path' => ROOT, 'bootstrap' => true]);
