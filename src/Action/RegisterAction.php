@@ -79,10 +79,9 @@ class RegisterAction extends BaseAction
      * Post success callback
      *
      * @param \Crud\Event\Subject $subject Event subject
-     * @param array Authenticated user record data.
      * @return \Cake\Network\Response
      */
-    protected function _success(Subject $subject, array $user)
+    protected function _success(Subject $subject)
     {
         $subject->set(['success' => true, 'created' => true]);
 
