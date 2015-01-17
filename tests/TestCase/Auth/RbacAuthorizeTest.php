@@ -19,6 +19,7 @@ class RbacAuthorizeTest extends TestCase
     public function tearDown()
     {
         parent::tearDown();
+        TableRegistry::clear();
         unset($this->auth, $this->Collection);
     }
 
