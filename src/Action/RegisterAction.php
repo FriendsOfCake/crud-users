@@ -88,7 +88,7 @@ class RegisterAction extends BaseAction
         $this->_trigger('afterRegister', $subject);
         $this->setFlash('success', $subject);
 
-        return $this->_redirect($subject, ['controller' => 'pages', 'action' => 'home']);
+        return $this->_redirect($subject, ['controller' => 'pages', 'action' => 'display', 'home']);
     }
 
     /**
