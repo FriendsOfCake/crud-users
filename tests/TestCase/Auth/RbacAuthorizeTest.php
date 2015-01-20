@@ -33,29 +33,22 @@ class RbacAuthorizeTest extends TestCase
             ]
         ];
 
-        $user = $this->getMock('CrudUsers\Model\Entity\User', ['hasAccess'], [$authUser]);
+        $request = $this->getMock('Cake\Network\Request');
+        $request->params = ['controller' => 'Pages', 'action' => 'display', 'home'];
 
+        $user = $this->getMock('CrudUsers\Model\Entity\User', ['hasAccess'], [$authUser]);
         $user->expects($this->once())
             ->method('hasAccess')
+            ->with()
             ->will($this->returnValue(true));
 
         $users = $this->getMock('Cake\ORM\Table', ['newEntity']);
-        TableRegistry::set('CrudUsers.Users', $users);
-
         $users->expects($this->once())
             ->method('newEntity')
-            ->with($authUser)
+            ->with($authUser, ['associated' => ['CrudUsers.Groups']])
             ->will($this->returnValue($user));
 
-        $request = $this->getMock('Cake\Network\Request', ['params']);
-
-        $request->expects($this->once())
-            ->method('params')
-            ->will($this->returnValue([
-                'plugin' => null,
-                'controller' => 'foo',
-                'action' => 'bar'
-            ]));
+        TableRegistry::set('CrudUsers.Users', $users);
 
         $this->assertTrue($this->auth->authorize($authUser, $request));
     }
