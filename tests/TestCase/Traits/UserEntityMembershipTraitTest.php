@@ -108,6 +108,7 @@ class UserEntityMembershipTraitTest extends TestCase
 
     public function testGetMergedPermissions()
     {
+        $this->Trait->permissions = ['admin/edit' => 0];
         $this->Trait->groups = [
             new Group(['id' => 1, 'permissions' => ['admin/add' => 1, 'admin/edit' => 1, 'admin/delete' => 0]]),
             new Group(['id' => 2, 'permissions' => ['admin/delete' => 1]])
@@ -119,7 +120,7 @@ class UserEntityMembershipTraitTest extends TestCase
 
         $expected = [
             'admin/add' => 1,
-            'admin/edit' => 1,
+            'admin/edit' => 0,
             'admin/delete' => 1,
         ];
 

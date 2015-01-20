@@ -168,6 +168,9 @@ trait UserEntityMembershipTrait
                 $permissions = array_merge($permissions, $group->getPermissions());
             }
             $this->mergedPermissions = array_merge($permissions, (array)$this->getPermissions());
+            if (!empty($this->permissions)) {
+                $this->mergedPermissions = array_merge($this->mergedPermissions, (array)$this->permissions);
+            }
         }
         return $this->mergedPermissions;
     }
