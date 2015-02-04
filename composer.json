@@ -18,7 +18,6 @@
     ]
     , "require":{
         "cakephp/cakephp": "3.0.*-dev"
-        , "cakephp/plugin-installer": "*"
         , "friendsofcake/crud": "dev-cake3"
     }
     , "require-dev": {
