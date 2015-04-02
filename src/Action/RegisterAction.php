@@ -40,7 +40,7 @@ class RegisterAction extends BaseAction
     /**
      * HTTP GET handler
      *
-     * @return void|\Cake\Network\Response
+     * @return void
      */
     protected function _get()
     {

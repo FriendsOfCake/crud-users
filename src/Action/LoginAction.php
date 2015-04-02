@@ -27,7 +27,7 @@ class LoginAction extends BaseAction
     /**
      * HTTP GET handler
      *
-     * @return void|\Cake\Network\Response
+     * @return void
      */
     protected function _get()
     {
@@ -41,7 +41,7 @@ class LoginAction extends BaseAction
     /**
      * HTTP POST handler
      *
-     * @return void|\Cake\Network\Response
+     * @return \Cake\Network\Response
      */
     protected function _post()
     {
@@ -54,7 +54,7 @@ class LoginAction extends BaseAction
         $this->_trigger('beforeLogin', $subject);
 
         $authCallback = [$this->_controller()->Auth, $subject->identifyMethod];
-        if ($user = $authCallback()){
+        if ($user = $authCallback()) {
             return $this->_success($subject, $user);
         }
 
@@ -64,8 +64,8 @@ class LoginAction extends BaseAction
     /**
      * Post success callback
      *
-     * @param \Crud\Event\Subject $subject Event subject
-     * @param array Authenticated user record data.
+     * @param \Crud\Event\Subject $subject Event subject.
+     * @param array $user Authenticated user record data.
      * @return \Cake\Network\Response
      */
     protected function _success(Subject $subject, array $user)
