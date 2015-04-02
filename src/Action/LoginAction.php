@@ -13,7 +13,6 @@ class LoginAction extends BaseAction
 
     protected $_defaultConfig = [
         'enabled' => true,
-        // FIXME Should flash messages use the AuthComponent::flash() or it's key?
         'messages' => [
             'success' => [
                 'text' => 'Successfully logged you in'
@@ -45,20 +44,15 @@ class LoginAction extends BaseAction
      */
     protected function _post()
     {
-        $subject = $this->_subject([
-            // FIXME Are those really needed?
-            'identifyMethod' => 'identify',
-            'redirectUrlMethod' => 'redirectUrl',
-        ]);
+        $subject = $this->_subject();
 
         $this->_trigger('beforeLogin', $subject);
 
-        $authCallback = [$this->_controller()->Auth, $subject->identifyMethod];
-        if ($user = $authCallback()) {
+        if ($user = $this->_controller()->Auth->identify()) {
             return $this->_success($subject, $user);
         }
 
-        return $this->_error($subject);
+        $this->_error($subject);
     }
 
     /**
@@ -78,7 +72,7 @@ class LoginAction extends BaseAction
 
         return $this->_redirect(
             $subject,
-            $this->_controller()->Auth->{$subject->redirectUrlMethod}()
+            $this->_controller()->Auth->redirectUrl()
         );
     }
 
