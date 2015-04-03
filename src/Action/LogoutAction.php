@@ -27,27 +27,13 @@ class LogoutAction extends BaseAction
      */
     protected function _get()
     {
-        $subject = $this->_subject([
-            'logoutMethod' => 'logout',
-        ]);
-
+        $subject = $this->_subject();
         $this->_trigger('beforeLogout', $subject);
 
-        $logoutCallback = [$this->_controller()->Auth, $subject->logoutMethod];
-        $redirectUrl = $logoutCallback();
-        return $this->_success($subject, $redirectUrl);
-    }
-
-    /**
-     * Post success callback
-     *
-     * @param \Crud\Event\Subject $subject Event subject
-     * @param string $redirectUrl Logout redirect URL.
-     * @return \Cake\Network\Response
-     */
-    protected function _success(Subject $subject, $redirectUrl)
-    {
-        $subject->set(['success' => true, 'redirectUrl' => $redirectUrl]);
+        $subject->set([
+            'success' => true,
+            'redirectUrl' => $this->_controller()->Auth->logout()
+        ]);
 
         $this->_trigger('afterLogout', $subject);
         $this->setFlash('success', $subject);
