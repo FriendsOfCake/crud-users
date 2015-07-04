@@ -113,7 +113,7 @@ trait UserEntityMembershipTrait
             } else {
                 $matched = false;
                 foreach ($mergedPermissions as $mergedPermission => $value) {
-                    if (strlen($mergedPermission) > 1 && substr($mergedPermission, -1) == '*') {
+                    if (strlen($mergedPermission) >= 1 && substr($mergedPermission, -1) == '*') {
                         $matched = false;
                         $checkMergedPermission = substr($mergedPermission, 0, -1);
                         if (
