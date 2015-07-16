@@ -25,6 +25,6 @@ trait PasswordHasherTrait
 
     protected function _setPassword($password)
     {
-        return $this->getHasher()->hash($password);
+        return $password === null ? null : $this->getHasher()->hash($password);
     }
 }
