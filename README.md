@@ -22,7 +22,12 @@ $this->Crud->mapAction('login', 'CrudUsers.Login');
 $this->Crud->mapAction('login', 'CrudUsers.Logout');
 ```
 
+- RegisterAction (beforeRegister, afterRegister)
+
+```
+$this->Crud->mapAction('login', 'CrudUsers.Register');
+```
+
 ## TODO
 
 - ForgetPasswordAction
-- RegisterAction
