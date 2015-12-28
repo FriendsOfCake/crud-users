@@ -19,17 +19,17 @@ $this->Crud->mapAction('login', 'CrudUsers.Login');
 - LogoutAction (beforeLogout, afterLogout)
 
 ```
-$this->Crud->mapAction('login', 'CrudUsers.Logout');
+$this->Crud->mapAction('logout', 'CrudUsers.Logout');
 ```
 
 - RegisterAction (beforeRegister, afterRegister)
 
 ```
-$this->Crud->mapAction('login', 'CrudUsers.Register');
+$this->Crud->mapAction('register', 'CrudUsers.Register');
 ```
 
 - ForgotPasswordAction (beforeForgotPassword, afterForgotPassword)
 
 ```
-$this->Crud->mapAction('login', 'CrudUsers.Register');
+$this->Crud->mapAction('forgot_password', 'CrudUsers.Register');
 ```
