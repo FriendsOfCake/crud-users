@@ -61,6 +61,11 @@ class ForgotPasswordAction extends BaseAction
         return $this->_error($subject);
     }
 
+    /**
+     * Get the query configuration
+     *
+     * @return array
+     */
     protected function _getFindConfig()
     {
         $config = (array)$this->config('findConfig') + ['conditions' => []];
