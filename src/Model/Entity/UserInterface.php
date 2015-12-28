@@ -16,8 +16,8 @@ namespace CrudUsers\Model\Entity;
  * @link       http://cartalyst.com
  */
 
-interface UserInterface {
-
+interface UserInterface
+{
     /**
      * Returns the user's ID.
      *
@@ -87,7 +87,7 @@ interface UserInterface {
      * the activate code. If the user is activated already,
      * an Exception is thrown.
      *
-     * @param  string  $activationCode
+     * @param  string $activationCode an activation code
      * @return bool
      * @throws \CrudUsers\Datasource\Exception\UserAlreadyActivatedException
      */
@@ -104,7 +104,7 @@ interface UserInterface {
      * Checks if the provided user reset password code is
      * valid without actually resetting the password.
      *
-     * @param  string  $resetCode
+     * @param  string $resetCode a reset code
      * @return bool
      */
     public function checkResetPasswordCode($resetCode);
@@ -113,8 +113,8 @@ interface UserInterface {
      * Attempts to reset a user's password by matching
      * the reset code generated with the user's.
      *
-     * @param  string  $resetCode
-     * @param  string  $newPassword
+     * @param  string $resetCode a reset code
+     * @param  string $newPassword a new password
      * @return bool
      */
     public function attemptResetPassword($resetCode, $newPassword);
@@ -138,7 +138,7 @@ interface UserInterface {
     /**
      * Adds the user to the given group
      *
-     * @param  \CrudUser\Interfaces\GroupInterface  $group
+     * @param  \CrudUser\Interfaces\GroupInterface $group a group entity
      * @return bool
      */
     public function addGroup(GroupInterface $group);
@@ -146,7 +146,7 @@ interface UserInterface {
     /**
      * Removes the user from the given group.
      *
-     * @param  \CrudUser\Interfaces\GroupInterface  $group
+     * @param  \CrudUser\Interfaces\GroupInterface $group a group entity
      * @return bool
      */
     public function removeGroup(GroupInterface $group);
@@ -154,7 +154,7 @@ interface UserInterface {
     /**
      * See if the user is in the given group.
      *
-     * @param  \CrudUser\Interfaces\GroupInterface  $group
+     * @param  \CrudUser\Interfaces\GroupInterface $group a group entity
      * @return bool
      */
     public function inGroup(GroupInterface $group);
@@ -178,8 +178,8 @@ interface UserInterface {
      *
      * Super users have access no matter what.
      *
-     * @param  string|array  $permissions
-     * @param  bool  $all
+     * @param string|array $permissions a string or list of permissions to check for
+     * @param bool $all whether or not to require all permissions during a check
      * @return bool
      */
     public function hasAccess($permissions, $all = true);
@@ -195,8 +195,8 @@ interface UserInterface {
      *
      * Super users DON'T have access no matter what.
      *
-     * @param  string|array  $permissions
-     * @param  bool $all
+     * @param string|array $permissions a string or list of permissions to check for
+     * @param bool $all whether or not to require all permissions during a check
      * @return bool
      */
     public function hasPermission($permissions, $all = true);
@@ -205,7 +205,7 @@ interface UserInterface {
      * Returns if the user has access to any of the
      * given permissions.
      *
-     * @param  array  $permissions
+     * @param  array  $permissions a list of permissions to check for
      * @return bool
      */
     public function hasAnyAccess(array $permissions);

@@ -2,9 +2,9 @@
 
 namespace CrudUsers\Test\TestCase\Traits;
 
-use CrudUsers\Model\Entity\Group;
 use Cake\ORM\Entity;
 use Cake\TestSuite\TestCase;
+use CrudUsers\Model\Entity\Group;
 
 class UserEntityMembershipTraitTest extends TestCase
 {

@@ -27,9 +27,8 @@ class GroupsFixture extends TestFixture
 
     public function init()
     {
-        foreach ($this->records as &$record)
-        {
-            $record['permissions'] = json_encode($record['permissions']);
+        foreach ($this->records as $i => $record) {
+            $this->records[$i]['permissions'] = json_encode($this->records[$i]['permissions']);
         }
 
         return parent::init();

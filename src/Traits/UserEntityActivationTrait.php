@@ -5,6 +5,9 @@ namespace CrudUsers\Traits;
 trait UserEntityActivationTrait
 {
 
+    /**
+     * {@inheritDoc}
+     */
     public function attemptActivation($activationCode)
     {
         if ($this->isActivated()) {
@@ -21,6 +24,9 @@ trait UserEntityActivationTrait
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getActivationCode()
     {
         $activationCode = $this->randomizedString();
@@ -28,9 +34,11 @@ trait UserEntityActivationTrait
         return $activationCode;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function isActivated()
     {
         return $this->is_active;
     }
-
 }

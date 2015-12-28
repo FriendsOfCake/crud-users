@@ -12,6 +12,9 @@ trait UserEntityMembershipTrait
 
     protected $_allowedPermissionsValues = [-1, 0, 1];
 
+    /**
+     * {@inheritDoc}
+     */
     public function isSuperUser()
     {
         return $this->hasPermission('superuser');
@@ -40,11 +43,17 @@ trait UserEntityMembershipTrait
         return $permissions;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getGroups()
     {
         return $this->groups;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function addGroup(GroupInterface $group)
     {
         if (!$this->inGroup($group)) {
@@ -53,28 +62,40 @@ trait UserEntityMembershipTrait
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function removeGroup(GroupInterface $group)
     {
         if ($this->inGroup($group)) {
             $groups = new Collection($this->getGroups());
-            $this->groups = $groups->filter(function($g) use ($group) {
+            $this->groups = $groups->filter(function ($g) use ($group) {
                 return $g->getId() !== $group->getId();
             })->toArray();
             $this->_persist();
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function inGroup(GroupInterface $group)
     {
         $groups = new Collection($this->getGroups());
         return (bool)count($groups->match(['id' => $group->getId()])->toArray());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function hasAccess($permissions, $all = true)
     {
         return $this->isSuperUser() || $this->hasPermission($permissions, $all);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function hasPermission($permissions, $all = true)
     {
         $mergedPermissions = $this->getMergedPermissions();
@@ -88,24 +109,16 @@ trait UserEntityMembershipTrait
                 $matched = false;
                 foreach ($mergedPermissions as $mergedPermission => $value) {
                     $checkPermission = substr($permission, 0, -1);
-                    if (
-                        $checkPermission != $mergedPermission
-                        && substr($mergedPermission, 0, strlen($checkPermission)) === $checkPermission
-                        && $value == 1
-                    ) {
+                    if ($checkPermission != $mergedPermission && substr($mergedPermission, 0, strlen($checkPermission)) === $checkPermission && $value == 1) {
                         $matched = true;
                         break;
                     }
                 }
-            } else if ($startsWithWildcard) {
+            } elseif ($startsWithWildcard) {
                 $matched = false;
                 foreach ($mergedPermissions as $mergedPermission => $value) {
                     $checkPermission = substr($permission, 1);
-                    if (
-                        $checkPermission != $mergedPermission
-                        && substr($mergedPermission, -(strlen($checkPermission))) === $checkPermission
-                        && $value == 1
-                    ) {
+                    if ($checkPermission != $mergedPermission && substr($mergedPermission, -(strlen($checkPermission))) === $checkPermission && $value == 1) {
                         $matched = true;
                         break;
                     }
@@ -116,29 +129,18 @@ trait UserEntityMembershipTrait
                     if (strlen($mergedPermission) >= 1 && substr($mergedPermission, -1) == '*') {
                         $matched = false;
                         $checkMergedPermission = substr($mergedPermission, 0, -1);
-                        if (
-                            $checkMergedPermission != $permission
-                            && substr($permission, 0, strlen($checkMergedPermission)) == $checkMergedPermission
-                            && $value == 1
-                        ) {
+                        if ($checkMergedPermission != $permission && substr($permission, 0, strlen($checkMergedPermission)) == $checkMergedPermission && $value == 1) {
                             $matched = true;
                             break;
                         }
-                    } else if (strlen($mergedPermission) > 1 && substr($mergedPermission, 0, 1) == '*') {
+                    } elseif (strlen($mergedPermission) > 1 && substr($mergedPermission, 0, 1) == '*') {
                         $matched = false;
                         $checkMergedPermission = substr($mergedPermission, 1);
-                        if (
-                            $checkMergedPermission != $permission
-                            && substr($permission, -(strlen($checkMergedPermission))) == $checkedMergedPermission
-                            && $value == 1
-                        ) {
+                        if ($checkMergedPermission != $permission && substr($permission, -(strlen($checkMergedPermission))) == $checkedMergedPermission && $value == 1) {
                             $matched = true;
                             break;
                         }
-                    } else if (
-                        $permission == $mergedPermission
-                        && !empty($mergedPermissions[$permission])
-                    ) {
+                    } elseif ($permission == $mergedPermission && !empty($mergedPermissions[$permission])) {
                         $matched = true;
                         break;
                     }
@@ -147,7 +149,7 @@ trait UserEntityMembershipTrait
 
             if ($all && !$matched) {
                 return false;
-            } else if (!$all && $matched) {
+            } elseif (!$all && $matched) {
                 return true;
             }
         }
@@ -155,11 +157,17 @@ trait UserEntityMembershipTrait
         return $all;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function hasAnyAccess(array $permissions)
     {
         return $this->hasAccess($permissions, false);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getMergedPermissions()
     {
         if (!$this->mergedPermissions) {

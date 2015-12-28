@@ -2,12 +2,12 @@
 
 namespace CrudUsers\Model\Table;
 
-interface GroupsTableInterface {
-
+interface GroupsTableInterface
+{
     /**
      * Find the group by ID.
      *
-     * @param int $id
+     * @param int $id the group id
      * @return \CrudUsers\Model\Entity\GroupInterface  $group
      * @throws \CrudUsers\Datasource\Exception\GroupNotFoundException
      */
@@ -16,8 +16,8 @@ interface GroupsTableInterface {
     /**
      * Find the group by name.
      *
-     * @param string $name
-     * @return \CrudUsers\Model\Entity\GroupInterface  $group
+     * @param string $name the name of the group
+     * @return \CrudUsers\Model\Entity\GroupInterface $group
      * @throws \CrudUsers\Datasource\Exception\GroupNotFoundException
      */
     public function getByName($name);

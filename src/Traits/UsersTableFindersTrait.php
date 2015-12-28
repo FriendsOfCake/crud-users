@@ -6,6 +6,9 @@ use CrudUsers\Datasource\Exception\UserNotFoundException;
 
 trait UsersTableFindersTrait
 {
+    /**
+     * {@inheritDoc}
+     */
     public function getById($id)
     {
         $conditions = [$this->primaryKey() => $id];
@@ -18,6 +21,9 @@ trait UsersTableFindersTrait
         return $result->first();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getByLogin($login)
     {
         $conditions = [$this->newEntity()->getLoginName() => $login];

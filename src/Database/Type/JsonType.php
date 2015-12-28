@@ -8,7 +8,6 @@ use PDO;
 
 class JsonType extends Type
 {
-
     public function toPHP($value, Driver $driver)
     {
         if ($value === null) {
@@ -29,5 +28,4 @@ class JsonType extends Type
         }
         return PDO::PARAM_STR;
     }
-
 }

@@ -2,12 +2,12 @@
 
 namespace CrudUsers\Model\Table;
 
-interface UsersTableInterface {
-
+interface UsersTableInterface
+{
     /**
      * Finds a user by the given user ID.
      *
-     * @param mixed $id
+     * @param mixed $id user id
      * @return \CrudUsers\Model\Entity\UserInterface
      * @throws \CrudUsers\Datasource\Exception\UserNotFoundException
      */
@@ -16,7 +16,7 @@ interface UsersTableInterface {
     /**
      * Finds a user by the login value.
      *
-     * @param string $login
+     * @param string $login a login name
      * @return \CrudUsers\Model\Entity\UserInterface
      * @throws \CrudUsers\Datasource\Exception\UserNotFoundException
      */
@@ -25,7 +25,7 @@ interface UsersTableInterface {
     /**
      * Finds a user by the given activation code.
      *
-     * @param string $code
+     * @param string $activationCode an activation code
      * @return \CrudUsers\Model\Entity\UserInterface
      * @throws \CrudUsers\Datasource\Exception\UserNotFoundException
      * @throws InvalidArgumentException
@@ -36,7 +36,7 @@ interface UsersTableInterface {
     /**
      * Finds a user by the given reset password code.
      *
-     * @param string $code
+     * @param string $resetCode a reset code
      * @return \CrudUsers\Model\Entity\UserInterface
      * @throws \CrudUsers\Datasource\Exception\UserNotFoundException
      * @throws RuntimeException

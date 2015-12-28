@@ -15,6 +15,9 @@ class UsersTable extends Table implements UsersTableInterface
     use UsersTableFindersTrait;
     use UsersTableResetPasswordCodeFinderTrait;
 
+    /**
+     * {@inheritDoc}
+     */
     public function initialize(array $config)
     {
         $this->primaryKey('user_id');

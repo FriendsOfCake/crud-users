@@ -16,8 +16,8 @@ namespace CrudUsers\Model\Entity;
  * @link       http://cartalyst.com
  */
 
-interface GroupInterface {
-
+interface GroupInterface
+{
     /**
      * Returns the group's ID.
      *

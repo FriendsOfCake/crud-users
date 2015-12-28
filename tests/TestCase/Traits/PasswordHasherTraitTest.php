@@ -9,8 +9,13 @@ use CrudUsers\Traits\PasswordHasherTrait;
 
 class CustomPasswordHasher extends AbstractPasswordHasher
 {
-    public function check($password, $hashedPassword) {}
-    public function hash($string) {}
+    public function check($password, $hashedPassword)
+    {
+    }
+
+    public function hash($string)
+    {
+    }
 }
 
 class PasswordHasherUser extends Entity

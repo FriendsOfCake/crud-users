@@ -6,6 +6,9 @@ use CrudUsers\Datasource\Exception\GroupNotFoundException;
 
 trait GroupsTableFindersTrait
 {
+    /**
+     * {@inheritDoc}
+     */
     public function getById($id)
     {
         $result = $this->findById($id);
@@ -17,6 +20,9 @@ trait GroupsTableFindersTrait
         return $result->first();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getByName($name)
     {
         $result = $this->findByName($name);

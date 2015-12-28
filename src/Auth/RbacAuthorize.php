@@ -22,7 +22,7 @@ class RbacAuthorize extends BaseAuthorize
                 'associated' => [$this->config('groupModel')]
             ]);
 
-        $params = array_filter($request->params, function($item) {
+        $params = array_filter($request->params, function ($item) {
             return !empty($item) && is_string($item);
         });
         $permissions = [];
@@ -52,7 +52,8 @@ class RbacAuthorize extends BaseAuthorize
             try {
                 $route = Router::url($params + ['_method' => $method]);
                 break;
-            } catch (MissingRouteException $e) {}
+            } catch (MissingRouteException $e) {
+            }
         }
 
         if (empty($route)) {
