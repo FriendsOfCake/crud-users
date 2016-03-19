@@ -19,6 +19,7 @@ class RegisterAction extends BaseAction
 
     protected $_defaultConfig = [
         'enabled' => true,
+        'fields' => null,
         'scope' => 'entity',
         'inflection' => 'singular',
         'relatedModels' => true,
@@ -59,8 +60,15 @@ class RegisterAction extends BaseAction
      */
     protected function _post()
     {
+        $data = $this->_request()->data;
+
+        if ($this->config('fields')) {
+            $whitelist = array_flip($this->config('fields');
+            $data = array_intersect_key($this->_request()->data, $whitelist));
+        }
+
         $subject = $this->_subject([
-            'entity' => $this->_entity($this->_request()->data, $this->saveOptions()),
+            'entity' => $this->_entity($data, $this->saveOptions()),
             'saveMethod' => $this->saveMethod(),
             'saveOptions' => $this->saveOptions()
         ]);
