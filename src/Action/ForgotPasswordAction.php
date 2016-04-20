@@ -24,7 +24,7 @@ class ForgotPasswordAction extends BaseAction
         'findMethod' => 'all',
         'messages' => [
             'success' => [
-                'text' => 'A recovery email has been sent successfuly'
+                'text' => 'A recovery email has been sent successfully'
             ],
             'error' => [
                 'text' => 'No search results found'
