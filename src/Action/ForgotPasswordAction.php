@@ -1,8 +1,11 @@
 <?php
 
-namespace Crud\Action;
+namespace CrudUsers\Action;
 
+use Crud\Action\BaseAction;
+use Crud\Event\Subject;
 use Crud\Traits\FindMethodTrait;
+use Crud\Traits\RedirectTrait;
 use Crud\Traits\ViewTrait;
 use Crud\Traits\ViewVarTrait;
 
@@ -10,6 +13,7 @@ class ForgotPasswordAction extends BaseAction
 {
 
     use FindMethodTrait;
+    use RedirectTrait;
     use ViewTrait;
     use ViewVarTrait;
 
@@ -17,10 +21,18 @@ class ForgotPasswordAction extends BaseAction
         'enabled' => true,
         'scope' => 'entity',
         'findConfig' => [],
-        'findMethod' => 'first',
+        'findMethod' => 'all',
+        'messages' => [
+            'success' => [
+                'text' => 'A recovery email has been sent successfuly'
+            ],
+            'error' => [
+                'text' => 'No search results found'
+            ]
+        ],
+        'serialize' => [],
         'view' => null,
-        'viewVar' => null,
-        'serialize' => []
+        'viewVar' => null
     ];
 
     /**
@@ -53,12 +65,16 @@ class ForgotPasswordAction extends BaseAction
 
         $this->_trigger('beforeForgotPassword', $subject);
 
-        $query = $this->_table()->find($subject->findMethod, $subject->findConfig);
-        if ($query->count()) {
-            return $this->_success($subject, $query);
+        $entity = $this->_table()
+            ->find($subject->findMethod, $subject->findConfig)
+            ->first();
+
+        if (empty($entity)) {
+            return $this->_error($subject);
         }
 
-        return $this->_error($subject);
+        $subject->set(['entity' => $entity]);
+        return $this->_success($subject);
     }
 
     /**
