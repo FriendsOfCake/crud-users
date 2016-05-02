@@ -30,6 +30,7 @@ class ForgotPasswordAction extends BaseAction
                 'text' => 'No search results found'
             ]
         ],
+        'redirectUrl' => null,
         'serialize' => [],
         'view' => null,
         'viewVar' => null
@@ -102,7 +103,13 @@ class ForgotPasswordAction extends BaseAction
         $this->_trigger('afterForgotPassword', $subject);
         $this->setFlash('success', $subject);
 
-        return $this->_redirect($subject, $this->_controller()->Auth->config('loginAction'));
+        if ($this->config('redirectUrl') === null) {
+            $redirectUrl = $this->_controller()->Auth->config('loginAction');
+        } else {
+            $redirectUrl = $this->config('redirectUrl');
+        }
+
+        return $this->_redirect($subject, $redirectUrl);
     }
 
     /**
