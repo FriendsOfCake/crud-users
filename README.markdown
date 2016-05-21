@@ -31,5 +31,11 @@ $this->Crud->mapAction('register', 'CrudUsers.Register');
 - ForgotPasswordAction (beforeForgotPassword, afterForgotPassword)
 
 ```
-$this->Crud->mapAction('forgot_password', 'CrudUsers.Register');
+$this->Crud->mapAction('forgotPassword', 'CrudUsers.ForgotPassword');
+```
+
+- ResetPasswordAction (beforeRender, beforeFind, afterFind, verifyToken, beforeSave, afterSave, afterResetPassword)
+
+```
+$this->Crud->mapAction('resetPassword', 'CrudUsers.ResetPassword');
 ```
