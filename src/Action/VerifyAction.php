@@ -11,7 +11,7 @@ use Crud\Traits\SaveMethodTrait;
 use Crud\Traits\ViewTrait;
 use Crud\Traits\ViewVarTrait;
 
-class ResetPasswordAction extends BaseAction
+class VerifyAction extends BaseAction
 {
 
     use FindMethodTrait;
@@ -31,10 +31,10 @@ class ResetPasswordAction extends BaseAction
         'view' => null,
         'messages' => [
             'success' => [
-                'text' => 'Account updated successfully'
+                'text' => 'Account verified successfully'
             ],
             'error' => [
-                'text' => 'Could not update the account'
+                'text' => 'Could not verify the account'
             ],
             'tokenNotFound' => [
                 'code' => 404,
@@ -54,7 +54,7 @@ class ResetPasswordAction extends BaseAction
      * HTTP GET handler
      *
      * @param string $token Token
-     * @return void
+     * @return \Cake\Network\Response
      */
     protected function _get($token = null)
     {
@@ -66,30 +66,6 @@ class ResetPasswordAction extends BaseAction
             'token' => $token
         ]);
 
-        $this->_trigger('beforeRender', $subject);
-    }
-
-    /**
-     * HTTP POST handler
-     *
-     * Thin proxy for _put
-     *
-     * @param string|null $token Token
-     * @return void|\Cake\Network\Response
-     */
-    protected function _post($token = null)
-    {
-        return $this->_put($token);
-    }
-
-    /**
-     * HTTP PUT handler
-     *
-     * @param string|null $token Token
-     * @return void|\Cake\Network\Response
-     */
-    protected function _put($token = null)
-    {
         $entity = $this->_verify($this->_token($token));
 
         $subject = $this->_subject(compact('entity'));
@@ -137,7 +113,7 @@ class ResetPasswordAction extends BaseAction
     {
         $subject->set(['success' => true]);
 
-        $this->_trigger('afterResetPassword', $subject);
+        $this->_trigger('afterVerify', $subject);
         $this->setFlash('success', $subject);
 
         if ($this->config('redirectUrl') === null) {
@@ -159,7 +135,7 @@ class ResetPasswordAction extends BaseAction
     {
         $subject->set(['success' => false]);
 
-        $this->_trigger('afterResetPassword', $subject);
+        $this->_trigger('afterVerify', $subject);
         $this->setFlash('error', $subject);
         $this->_trigger('beforeRender', $subject);
     }
