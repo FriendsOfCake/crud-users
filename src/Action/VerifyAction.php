@@ -2,6 +2,7 @@
 
 namespace CrudUsers\Action;
 
+use Cake\Datasource\EntityInterface;
 use CrudUsers\Traits\VerifyTrait;
 use Crud\Action\BaseAction;
 use Crud\Event\Subject;
@@ -59,36 +60,28 @@ class VerifyAction extends BaseAction
     protected function _get($token = null)
     {
         $token = $this->_token($token);
+        $entity = $this->_verify($token);
 
-        $subject = $this->_subject([
-            'success' => true,
-            'entity' => $this->_table()->newEntity(),
-            'token' => $token
-        ]);
-
-        $entity = $this->_verify($this->_token($token));
-
-        $subject = $this->_subject(compact('entity'));
-        if ($this->_save($subject)) {
-            return $this->_success($subject);
+        if ($this->_save($entity)) {
+            return $this->_success();
         }
-        return $this->_error($subject);
+        return $this->_error();
     }
 
     /**
      * Save the updated record
      *
-     * @param \Crud\Event\Subject $subject Event subject
+     * @param \Cake\Datasource\EntityInterface $entity Entity
      * @return bool
      */
-    protected function _save(Subject $subject)
+    protected function _save(EntityInterface $entity)
     {
         $entity = $this->_table()->patchEntity(
-            $subject->entity,
-            $this->_request()->data,
+            $entity,
+            ['verified' => true],
             $this->saveOptions()
         );
-        $subject->set(['entity' => $entity]);
+        $subject = $this->_subject(['entity' => $entity]);
 
         $this->_trigger('beforeSave', $subject);
 
@@ -106,20 +99,19 @@ class VerifyAction extends BaseAction
     /**
      * Post success callback
      *
-     * @param \Crud\Event\Subject $subject Event subject
      * @return \Cake\Network\Response
      */
-    protected function _success(Subject $subject)
+    protected function _success()
     {
-        $subject->set(['success' => true]);
+        $subject = $this->_subject(['success' => true]);
 
         $this->_trigger('afterVerify', $subject);
         $this->setFlash('success', $subject);
 
-        if ($this->config('redirectUrl') === null) {
+        $redirectUrl = $this->config('redirectUrl');
+
+        if (!$redirectUrl && $this->_controller()->components()->has('Auth')) {
             $redirectUrl = $this->_controller()->Auth->config('loginAction');
-        } else {
-            $redirectUrl = $this->config('redirectUrl');
         }
 
         return $this->_redirect($subject, $redirectUrl);
@@ -128,12 +120,11 @@ class VerifyAction extends BaseAction
     /**
      * Post error callback
      *
-     * @param \Crud\Event\Subject $subject Event subject
      * @return void
      */
-    protected function _error(Subject $subject)
+    protected function _error()
     {
-        $subject->set(['success' => false]);
+        $subject = $this->_subject(['success' => false]);
 
         $this->_trigger('afterVerify', $subject);
         $this->setFlash('error', $subject);

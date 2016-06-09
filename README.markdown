@@ -39,3 +39,9 @@ $this->Crud->mapAction('forgotPassword', 'CrudUsers.ForgotPassword');
 ```
 $this->Crud->mapAction('resetPassword', 'CrudUsers.ResetPassword');
 ```
+
+- VerifyAction (beforeFind, afterFind, verifyToken, beforeSave, afterSave, afterVerify)
+
+```
+$this->Crud->mapAction('verifyAction', 'CrudUsers.VerifyAction');
+```
