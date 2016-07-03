@@ -65,4 +65,14 @@ Cache::config([
     ]
 ]);
 
-Plugin::load('CrudUsers', ['path' => ROOT]);
+// Ensure default test connection is defined
+if (!getenv('db_dsn')) {
+    putenv('db_dsn=sqlite:///:memory:');
+}
+
+Cake\Datasource\ConnectionManager::config('test', [
+    'url' => getenv('db_dsn'),
+    'timezone' => 'UTC'
+]);
+
+Plugin::load('CrudUsers', ['path' => ROOT, 'bootstrap' => true]);
