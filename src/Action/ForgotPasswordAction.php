@@ -75,6 +75,7 @@ class ForgotPasswordAction extends BaseAction
         }
 
         $subject->set(['entity' => $entity]);
+
         return $this->_success($subject);
     }
 
@@ -87,6 +88,7 @@ class ForgotPasswordAction extends BaseAction
     {
         $config = (array)$this->config('findConfig') + ['conditions' => []];
         $config['conditions'] = array_merge($config['conditions'], $this->_request()->data);
+
         return $config;
     }
 
