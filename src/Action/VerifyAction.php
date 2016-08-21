@@ -65,6 +65,7 @@ class VerifyAction extends BaseAction
         if ($this->_save($entity)) {
             return $this->_success();
         }
+
         return $this->_error();
     }
 
