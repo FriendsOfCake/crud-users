@@ -96,6 +96,7 @@ class ResetPasswordAction extends BaseAction
         if ($this->_save($subject)) {
             return $this->_success($subject);
         }
+
         return $this->_error($subject);
     }
 
