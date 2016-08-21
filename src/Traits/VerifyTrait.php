@@ -79,6 +79,7 @@ trait VerifyTrait
      * Throw exception if token not found or expired.
      *
      * @param string $error Error type. Default "tokenNotFound"
+     * @return void
      * @throws \Exception
      */
     protected function _tokenError($error = 'tokenNotFound')
