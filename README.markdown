@@ -46,5 +46,5 @@ $this->Crud->mapAction('verifyAction', 'CrudUsers.VerifyAction');
 
 The table holding your user schema and data sould contain these fields:
 
-- `token` (for instance of type `VARCHAR`)
-- `verified` of type `BOOLEAN` (e.g. `TINYINT(1)` for MySQL)
+- `token` of a type of your choice, for instance of type `VARCHAR`.
+- `verified` of type `BOOLEAN`, e.g. `TINYINT(1)` for MySQL.
