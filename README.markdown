@@ -7,7 +7,7 @@
 ## Features
 
 - LoginAction (beforeLogin, afterLogin, beforeRender), use it:
-
+m
 ```
 $this->Crud->mapAction('login', 'CrudUsers.Login');
 ```
@@ -44,7 +44,7 @@ $this->Crud->mapAction('verifyAction', 'CrudUsers.VerifyAction');
 
 ## Requirements
 
-The table holding your user schema and data must contain these fields:
+The table holding your user schema and data sould contain these fields:
 
-- `token`
+- `token` (for instance of type `VARCHAR`)
 - `verified` of type `BOOLEAN` (e.g. `TINYINT(1)` for MySQL)
