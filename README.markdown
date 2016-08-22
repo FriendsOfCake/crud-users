@@ -7,7 +7,7 @@
 ## Features
 
 - LoginAction (beforeLogin, afterLogin, beforeRender), use it:
-m
+
 ```
 $this->Crud->mapAction('login', 'CrudUsers.Login');
 ```
