@@ -41,3 +41,10 @@ $this->Crud->mapAction('resetPassword', 'CrudUsers.ResetPassword');
 ```
 $this->Crud->mapAction('verifyAction', 'CrudUsers.VerifyAction');
 ```
+
+## Requirements
+
+The table holding your user schema and data must contain these fields:
+
+- `token`
+- `verified` of type `BOOLEAN` (e.g. `TINYINT(1)` for MySQL)
