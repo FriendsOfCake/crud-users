@@ -39,5 +39,12 @@ $this->Crud->mapAction('resetPassword', 'CrudUsers.ResetPassword');
 - VerifyAction (beforeFind, afterFind, verifyToken, beforeSave, afterSave, afterVerify)
 
 ```
-$this->Crud->mapAction('verifyAction', 'CrudUsers.VerifyAction');
+$this->Crud->mapAction('verify', 'CrudUsers.Verify');
 ```
+
+## Requirements
+
+The table holding your user schema and data sould contain these fields:
+
+- `token` of a type of your choice, for instance of type `VARCHAR`.
+- `verified` of type `BOOLEAN`, e.g. `TINYINT(1)` for MySQL.
