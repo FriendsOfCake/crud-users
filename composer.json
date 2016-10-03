@@ -1,37 +1,42 @@
 {
-    "name":"friendsofcake/crud-users"
-    , "description":"Adds basic users support to CakePHP 3 applications that use the Crud plugin."
-    , "type":"cakephp-plugin"
-    , "keywords":[
-        "cakephp"
-        , "crud"
-        , "users"
-    ]
-    , "homepage":"https://github.com/FriendsOfCake/crud-users"
-    , "license":"MIT"
-    , "authors":[
+    "name":"friendsofcake/crud-users",
+    "description":"Adds basic users support to CakePHP 3 applications that use the Crud plugin.",
+    "type":"cakephp-plugin",
+    "keywords":[
+        "cakephp",
+        "crud",
+        "users"
+    ],
+    "homepage":"https://github.com/FriendsOfCake/crud-users",
+    "license":"MIT",
+    "authors":[
         {
-            "name":"Jad Bitar"
-            , "role":"Author"
-            , "homepage":"http://jadb.io/"
+            "name":"Jad Bitar",
+            "role":"Author",
+            "homepage":"http://jadb.io/"
+        },
+        {
+            "name":"ADmad",
+            "role":"Contributor",
+            "homepage":"https://github.com/ADmad"
         }
-    ]
-    , "require":{
-        "cakephp/cakephp": "~3.0"
-        , "friendsofcake/crud": "~4.0"
-    }
-    , "require-dev": {
-        "phpunit/phpunit": "4.*"
-        , "friendsofcake/cakephp-test-utilities": "dev-master"
-    }
-    , "autoload": {
-        "psr-4": {
-            "CrudUsers\\": "src"
+    ],
+    "require":{
+        "cakephp/cakephp":"~3.0",
+        "friendsofcake/crud":"~4.0"
+    },
+    "require-dev":{
+        "phpunit/phpunit":"*",
+        "friendsofcake/cakephp-test-utilities":"dev-master"
+    },
+    "autoload":{
+        "psr-4":{
+            "CrudUsers\\":"src"
         }
-    }
-    , "autoload-dev": {
-        "psr-4": {
-            "CrudUsers\\Test\\": "tests"
+    },
+    "autoload-dev":{
+        "psr-4":{
+            "CrudUsers\\Test\\":"tests"
         }
     }
 }
