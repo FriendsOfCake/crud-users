@@ -30,6 +30,18 @@ class VerifyAction extends BaseAction
         'relatedModels' => true,
         'saveOptions' => [],
         'view' => null,
+        'api' => [
+            'methods' => ['put', 'post'],
+            'success' => [
+                'code' => 200
+            ],
+            'error' => [
+                'exception' => [
+                    'type' => 'validate',
+                    'class' => '\Crud\Error\Exception\ValidationException'
+                ]
+            ]
+        ],
         'messages' => [
             'success' => [
                 'text' => 'Account verified successfully'

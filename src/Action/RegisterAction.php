@@ -27,6 +27,21 @@ class RegisterAction extends BaseAction
         'view' => null,
         'viewVar' => null,
         'entityKey' => 'entity',
+        'api' => [
+            'methods' => ['put', 'post'],
+            'success' => [
+                'code' => 201,
+                'data' => [
+                    'entity' => ['id']
+                ]
+            ],
+            'error' => [
+                'exception' => [
+                    'type' => 'validate',
+                    'class' => '\Crud\Error\Exception\ValidationException'
+                ]
+            ]
+        ],
         'messages' => [
             'success' => [
                 'text' => 'Account successfully created'
