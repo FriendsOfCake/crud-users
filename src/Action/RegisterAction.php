@@ -99,7 +99,7 @@ class RegisterAction extends BaseAction
      */
     protected function _error(Subject $subject)
     {
-        $subject->set(['success' => false, 'created' => true]);
+        $subject->set(['success' => false, 'created' => false]);
 
         $this->_trigger('afterRegister', $subject);
         $this->setFlash('error', $subject);
