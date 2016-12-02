@@ -4,6 +4,21 @@
 
 # Crud Users
 
+## Installation
+
+For CakePHP 3.x compatible version:
+
+```
+composer require friendsofcake/crud-users
+```
+
+# Bugs
+
+If you happen to stumble upon a bug, please feel free to create a pull request with a fix
+(optionally with a test), and a description of the bug and how it was resolved.
+
+You can also create an issue with a description to raise awareness of the bug.
+
 ## Features
 
 - LoginAction (beforeLogin, afterLogin, beforeRender), use it:
@@ -48,3 +63,7 @@ The table holding your user schema and data should contain these fields:
 
 - `token` of a type of your choice, for instance of type `VARCHAR`.
 - `verified` of type `BOOLEAN`, e.g. `TINYINT(1)` for MySQL.
+
+# Support / Questions
+
+You can join us on IRC in the #FriendsOfCake channel for any support or questions.
