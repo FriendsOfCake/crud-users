@@ -29,41 +29,97 @@ The table holding your user schema and data should contain these fields:
 
 ## Features
 
-- LoginAction (beforeLogin, afterLogin, beforeRender), use it:
+### Crud Action Classes
 
-```
+The following action classes can be mapped
+
+#### LoginAction
+
+Enable it via:
+
+```php
 $this->Crud->mapAction('login', 'CrudUsers.Login');
 ```
 
-- LogoutAction (beforeLogout, afterLogout)
+Triggers:
 
-```
+- beforeLogin
+- afterLogin
+- beforeRender
+
+#### LogoutAction
+
+Enable it via:
+
+```php
 $this->Crud->mapAction('logout', 'CrudUsers.Logout');
 ```
 
-- RegisterAction (beforeRegister, afterRegister)
+Triggers:
 
-```
+- beforeLogout
+- afterLogout
+
+#### RegisterAction
+
+Enable it via:
+
+```php
 $this->Crud->mapAction('register', 'CrudUsers.Register');
 ```
 
-- ForgotPasswordAction (beforeForgotPassword, afterForgotPassword)
+Triggers:
 
-```
+- beforeRegister
+- afterRegister
+
+#### ForgotPasswordAction
+
+Enable it via:
+
+```php
 $this->Crud->mapAction('forgotPassword', 'CrudUsers.ForgotPassword');
 ```
 
-- ResetPasswordAction (beforeRender, beforeFind, afterFind, verifyToken, beforeSave, afterSave, afterResetPassword)
+Triggers:
 
-```
+- beforeForgotPassword
+- afterForgotPassword
+
+#### ResetPasswordAction
+
+Enable it via:
+
+```php
 $this->Crud->mapAction('resetPassword', 'CrudUsers.ResetPassword');
 ```
 
-- VerifyAction (beforeFind, afterFind, verifyToken, beforeSave, afterSave, afterVerify)
+Triggers:
 
-```
+- beforeRender
+- beforeFind
+- afterFind
+- verifyToken
+- beforeSave
+- afterSave
+- afterResetPassword
+
+#### VerifyAction
+
+Enable it via:
+
+```php
 $this->Crud->mapAction('verify', 'CrudUsers.Verify');
 ```
+
+Triggers:
+
+- beforeFind
+- afterFind
+- verifyToken
+- beforeSave
+- afterSave
+- afterVerify
 
 # Bugs
 
