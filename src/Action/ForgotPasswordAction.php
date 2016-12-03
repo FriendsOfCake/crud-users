@@ -122,7 +122,7 @@ class ForgotPasswordAction extends BaseAction
      */
     protected function _error(Subject $subject)
     {
-        $subject->set(['success' => false]);
+        $subject->set(['success' => false, 'entity' => null]);
 
         $this->_trigger('afterForgotPassword', $subject);
         $this->setFlash('error', $subject);
