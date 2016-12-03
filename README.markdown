@@ -12,12 +12,20 @@ For CakePHP 3.x compatible version:
 composer require friendsofcake/crud-users
 ```
 
-# Bugs
+## Requirements
 
-If you happen to stumble upon a bug, please feel free to create a pull request with a fix
-(optionally with a test), and a description of the bug and how it was resolved.
+The table holding your user schema and data should contain these fields:
 
-You can also create an issue with a description to raise awareness of the bug.
+- `token` of a type of your choice, for instance of type `VARCHAR`. The following command will generate a migration for this:
+
+  ```shell
+  bin/cake bake migration alter_users token:string:unique
+  ```
+- `verified` of type `BOOLEAN`, e.g. `TINYINT(1)` for MySQL. The following command will generate a migration for this:
+
+  ```shell
+  bin/cake bake migration alter_users verified:boolean
+  ```
 
 ## Features
 
@@ -57,20 +65,12 @@ $this->Crud->mapAction('resetPassword', 'CrudUsers.ResetPassword');
 $this->Crud->mapAction('verify', 'CrudUsers.Verify');
 ```
 
-## Requirements
+# Bugs
 
-The table holding your user schema and data should contain these fields:
+If you happen to stumble upon a bug, please feel free to create a pull request with a fix
+(optionally with a test), and a description of the bug and how it was resolved.
 
-- `token` of a type of your choice, for instance of type `VARCHAR`. The following command will generate a migration for this:
-
-  ```shell
-  bin/cake bake migration alter_users token:string:unique
-  ```
-- `verified` of type `BOOLEAN`, e.g. `TINYINT(1)` for MySQL. The following command will generate a migration for this:
-
-  ```shell
-  bin/cake bake migration alter_users verified:boolean
-  ```
+You can also create an issue with a description to raise awareness of the bug.
 
 # Support / Questions
 
