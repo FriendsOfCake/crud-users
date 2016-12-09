@@ -9,7 +9,7 @@ aspects of your applications. This means that you should be able to listen for
 events in order to modify how it looks and how it behaves.
 
 When to use CRUD Users
----------------------
+----------------------
 
 * When you want to take care about the rules of your data processing and are okay
   customizing how it looks
