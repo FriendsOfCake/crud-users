@@ -35,11 +35,12 @@ The table holding your user schema and data should contain these fields:
 
 - `token` of a type of your choice, for instance of type `VARCHAR`. The following command will generate a migration for this:
 
-  ```shell
-  bin/cake bake migration alter_users token:string:unique
-  ```
+  .. code-block:: php
+
+      bin/cake bake migration alter_users token:string:unique
+
 - `verified` of type `BOOLEAN`, e.g. `TINYINT(1)` for MySQL. The following command will generate a migration for this:
 
-  ```shell
-  bin/cake bake migration alter_users verified:boolean
-  ```
+  .. code-block:: php
+
+      bin/cake bake migration alter_users verified:boolean
