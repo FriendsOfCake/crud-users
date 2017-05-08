@@ -23,7 +23,7 @@
     ],
     "require":{
         "cakephp/cakephp":"~3.0",
-        "friendsofcake/crud":"~4.0"
+        "friendsofcake/crud":"~5.0"
     },
     "require-dev":{
         "phpunit/phpunit":"*",
