@@ -51,7 +51,6 @@ class ForgotPasswordAction extends BaseAction
         $this->_trigger('beforeRender', $subject);
     }
 
-
     /**
      * HTTP POST handler
      *
