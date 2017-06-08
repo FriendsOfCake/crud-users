@@ -22,6 +22,7 @@ class ForgotPasswordAction extends BaseAction
         'scope' => 'entity',
         'findConfig' => [],
         'findMethod' => 'all',
+        'tokenField' => 'token',
         'messages' => [
             'success' => [
                 'text' => 'A recovery email has been sent successfully'
