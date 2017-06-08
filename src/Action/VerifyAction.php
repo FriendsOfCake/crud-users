@@ -26,6 +26,7 @@ class VerifyAction extends BaseAction
         'enabled' => true,
         'scope' => 'entity',
         'findMethod' => 'all',
+        'tokenField' => 'token',
         'saveMethod' => 'save',
         'relatedModels' => true,
         'saveOptions' => [],

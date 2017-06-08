@@ -48,7 +48,7 @@ trait VerifyTrait
                 $this->findMethod(),
                 [
                     'token' => $token,
-                    'conditions' => [$this->_table()->aliasField('token') => $token]
+                    'conditions' => [$this->_table()->aliasField($this->config('tokenField')) => $token]
                 ]
             ),
         ]);
