@@ -110,7 +110,7 @@ class RegisterAction extends BaseAction
      * Post error callback
      *
      * @param \Crud\Event\Subject $subject Event subject
-     * @return void
+     * @return void|\Cake\Network\Response
      */
     protected function _error(Subject $subject)
     {

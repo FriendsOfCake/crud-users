@@ -134,7 +134,7 @@ class VerifyAction extends BaseAction
     /**
      * Post error callback
      *
-     * @return void
+     * @return void|\Cake\Network\Response
      */
     protected function _error()
     {
