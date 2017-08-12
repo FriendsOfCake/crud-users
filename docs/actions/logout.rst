@@ -15,7 +15,6 @@ Configuration
 
 .. include:: /_partials/actions/configuration_intro.rst
 .. include:: /_partials/actions/configuration/enabled.rst
-.. include:: /_partials/actions/configuration/redirect.rst
 
 Action-Specific Events
 ----------------------

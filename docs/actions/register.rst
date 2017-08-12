@@ -15,7 +15,7 @@ Configuration
 
 .. include:: /_partials/actions/configuration_intro.rst
 .. include:: /_partials/actions/configuration/enabled.rst
-.. include:: /_partials/actions/configuration/redirect.rst
+.. include:: /_partials/actions/configuration/redirect_url.rst
 .. include:: /_partials/actions/configuration/save_options.rst
 .. include:: /_partials/actions/configuration/view.rst
 .. include:: /_partials/actions/configuration/view_var.rst
