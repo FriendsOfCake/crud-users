@@ -27,6 +27,7 @@ class RegisterAction extends BaseAction
         'view' => null,
         'viewVar' => null,
         'entityKey' => 'entity',
+        'redirectUrl' => null,
         'api' => [
             'methods' => ['put', 'post'],
             'success' => [
@@ -103,7 +104,12 @@ class RegisterAction extends BaseAction
         $this->_trigger('afterRegister', $subject);
         $this->setFlash('success', $subject);
 
-        return $this->_redirect($subject, '/');
+        $redirectUrl = $this->config('redirectUrl');
+        if ($redirectUrl === null && $this->_controller()->components()->has('Auth')) {
+            $redirectUrl = $this->_controller()->Auth->config('loginAction');
+        }
+
+        return $this->_redirect($subject, $redirectUrl);
     }
 
     /**
