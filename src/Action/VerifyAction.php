@@ -79,7 +79,7 @@ class VerifyAction extends BaseAction
             return $this->_success();
         }
 
-        return $this->_error();
+        $this->_error();
     }
 
     /**
@@ -134,7 +134,7 @@ class VerifyAction extends BaseAction
     /**
      * Post error callback
      *
-     * @return void|\Cake\Network\Response
+     * @return void
      */
     protected function _error()
     {
