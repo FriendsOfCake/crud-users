@@ -15,17 +15,17 @@ trait VerifyTrait
             return $token;
         }
 
-        $token = $this->_request()->data('token');
+        $token = $this->_request()->getData('token');
         if ($token) {
             return $token;
         }
 
-        $token = $this->_request()->param('token');
+        $token = $this->_request()->getParam('token');
         if ($token) {
             return $token;
         }
 
-        return $this->_request()->query('token');
+        return $this->_request()->getQuery('token');
     }
 
     /**
