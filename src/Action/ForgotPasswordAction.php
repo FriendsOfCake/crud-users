@@ -46,7 +46,7 @@ class ForgotPasswordAction extends BaseAction
     {
         $subject = $this->_subject([
             'success' => true,
-            'entity' => $this->_entity($this->_request()->query ?: null)
+            'entity' => $this->_entity($this->_request()->getQueryParams() ?: null)
         ]);
 
         $this->_trigger('beforeRender', $subject);
@@ -55,13 +55,13 @@ class ForgotPasswordAction extends BaseAction
     /**
      * HTTP POST handler
      *
-     * @return void|\Cake\Network\Response
+     * @return void|\Cake\Http\Response
      */
     protected function _post()
     {
         $subject = $this->_subject([
             'findConfig' => $this->_getFindConfig(),
-            'findMethod' => $this->config('findMethod')
+            'findMethod' => $this->getConfig('findMethod')
         ]);
 
         $this->_trigger('beforeForgotPassword', $subject);
@@ -86,8 +86,8 @@ class ForgotPasswordAction extends BaseAction
      */
     protected function _getFindConfig()
     {
-        $config = (array)$this->config('findConfig') + ['conditions' => []];
-        $config['conditions'] = array_merge($config['conditions'], $this->_request()->data);
+        $config = $this->getConfig('findConfig', []) + ['conditions' => []];
+        $config['conditions'] = array_merge($config['conditions'], $this->_request()->getData());
 
         return $config;
     }
@@ -96,7 +96,7 @@ class ForgotPasswordAction extends BaseAction
      * Post success callback
      *
      * @param \Crud\Event\Subject $subject Event subject
-     * @return \Cake\Network\Response
+     * @return \Cake\Http\Response
      */
     protected function _success(Subject $subject)
     {
@@ -105,8 +105,8 @@ class ForgotPasswordAction extends BaseAction
         $this->_trigger('afterForgotPassword', $subject);
         $this->setFlash('success', $subject);
 
-        if ($this->config('redirectUrl') === null) {
-            $redirectUrl = $this->_controller()->Auth->config('loginAction');
+        if ($this->getConfig('redirectUrl') === null) {
+            $redirectUrl = $this->_controller()->Auth->getConfig('loginAction');
         } else {
             $redirectUrl = $this->config('redirectUrl');
         }
@@ -118,7 +118,7 @@ class ForgotPasswordAction extends BaseAction
      * Post error callback
      *
      * @param \Crud\Event\Subject $subject Event subject
-     * @return void|\Cake\Network\Response
+     * @return void|\Cake\Http\Response
      */
     protected function _error(Subject $subject)
     {

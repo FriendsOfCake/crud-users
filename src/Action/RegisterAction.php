@@ -62,7 +62,10 @@ class RegisterAction extends BaseAction
     {
         $subject = $this->_subject([
             'success' => true,
-            'entity' => $this->_entity($this->_request()->query ?: null, $this->saveOptions())
+            'entity' => $this->_entity(
+                $this->_request()->getQueryParams() ?: null,
+                $this->saveOptions()
+            )
         ]);
 
         $this->_trigger('beforeRender', $subject);
@@ -71,12 +74,12 @@ class RegisterAction extends BaseAction
     /**
      * HTTP POST handler
      *
-     * @return void|\Cake\Network\Response
+     * @return void|\Cake\Http\Response
      */
     protected function _post()
     {
         $subject = $this->_subject([
-            'entity' => $this->_entity($this->_request()->data, $this->saveOptions()),
+            'entity' => $this->_entity($this->_request()->getData(), $this->saveOptions()),
             'saveMethod' => $this->saveMethod(),
             'saveOptions' => $this->saveOptions()
         ]);
@@ -95,7 +98,7 @@ class RegisterAction extends BaseAction
      * Post success callback
      *
      * @param \Crud\Event\Subject $subject Event subject
-     * @return \Cake\Network\Response
+     * @return \Cake\Http\Response
      */
     protected function _success(Subject $subject)
     {
@@ -106,7 +109,7 @@ class RegisterAction extends BaseAction
 
         $redirectUrl = $this->config('redirectUrl');
         if ($redirectUrl === null && $this->_controller()->components()->has('Auth')) {
-            $redirectUrl = $this->_controller()->Auth->config('loginAction');
+            $redirectUrl = $this->_controller()->Auth->getConfig('loginAction');
         }
 
         return $this->_redirect($subject, $redirectUrl);
@@ -116,7 +119,7 @@ class RegisterAction extends BaseAction
      * Post error callback
      *
      * @param \Crud\Event\Subject $subject Event subject
-     * @return void|\Cake\Network\Response
+     * @return void|\Cake\Http\Response
      */
     protected function _error(Subject $subject)
     {

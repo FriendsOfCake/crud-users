@@ -3,7 +3,6 @@
 namespace CrudUsers\Action;
 
 use Crud\Action\BaseAction;
-use Crud\Event\Subject;
 use Crud\Traits\RedirectTrait;
 
 class LogoutAction extends BaseAction
@@ -23,7 +22,7 @@ class LogoutAction extends BaseAction
     /**
      * HTTP GET handler
      *
-     * @return void|\Cake\Network\Response
+     * @return void|\Cake\Http\Response
      */
     protected function _get()
     {

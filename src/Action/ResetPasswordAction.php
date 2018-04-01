@@ -50,12 +50,12 @@ class ResetPasswordAction extends BaseAction
             ],
             'tokenNotFound' => [
                 'code' => 404,
-                'class' => 'Cake\Network\Exception\NotFoundException',
+                'class' => 'Cake\Http\Exception\NotFoundException',
                 'text' => 'Token not found'
             ],
             'tokenExpired' => [
                 'code' => 400,
-                'class' => 'Cake\Network\Exception\BadRequestException',
+                'class' => 'Cake\Http\Exception\BadRequestException',
                 'text' => 'Token has expired'
             ],
         ],
@@ -87,7 +87,7 @@ class ResetPasswordAction extends BaseAction
      * Thin proxy for _put
      *
      * @param string|null $token Token
-     * @return void|\Cake\Network\Response
+     * @return void|\Cake\Http\Response
      */
     protected function _post($token = null)
     {
@@ -98,7 +98,7 @@ class ResetPasswordAction extends BaseAction
      * HTTP PUT handler
      *
      * @param string|null $token Token
-     * @return void|\Cake\Network\Response
+     * @return void|\Cake\Http\Response
      */
     protected function _put($token = null)
     {
@@ -122,7 +122,7 @@ class ResetPasswordAction extends BaseAction
     {
         $entity = $this->_table()->patchEntity(
             $subject->entity,
-            $this->_request()->data,
+            $this->_request()->getData(),
             $this->saveOptions()
         );
         $subject->set(['entity' => $entity]);
@@ -144,7 +144,7 @@ class ResetPasswordAction extends BaseAction
      * Post success callback
      *
      * @param \Crud\Event\Subject $subject Event subject
-     * @return \Cake\Network\Response
+     * @return \Cake\Http\Response
      */
     protected function _success(Subject $subject)
     {
@@ -154,9 +154,9 @@ class ResetPasswordAction extends BaseAction
         $this->setFlash('success', $subject);
 
         if ($this->config('redirectUrl') === null) {
-            $redirectUrl = $this->_controller()->Auth->config('loginAction');
+            $redirectUrl = $this->_controller()->Auth->getConfig('loginAction');
         } else {
-            $redirectUrl = $this->config('redirectUrl');
+            $redirectUrl = $this->getConfig('redirectUrl');
         }
 
         return $this->_redirect($subject, $redirectUrl);
@@ -166,7 +166,7 @@ class ResetPasswordAction extends BaseAction
      * Post error callback
      *
      * @param \Crud\Event\Subject $subject Event subject
-     * @return void|\Cake\Network\Response
+     * @return void|\Cake\Http\Response
      */
     protected function _error(Subject $subject)
     {

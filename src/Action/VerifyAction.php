@@ -5,7 +5,6 @@ namespace CrudUsers\Action;
 use Cake\Datasource\EntityInterface;
 use CrudUsers\Traits\VerifyTrait;
 use Crud\Action\BaseAction;
-use Crud\Event\Subject;
 use Crud\Traits\FindMethodTrait;
 use Crud\Traits\RedirectTrait;
 use Crud\Traits\SaveMethodTrait;
@@ -52,12 +51,12 @@ class VerifyAction extends BaseAction
             ],
             'tokenNotFound' => [
                 'code' => 404,
-                'class' => 'Cake\Network\Exception\NotFoundException',
+                'class' => 'Cake\Http\Exception\NotFoundException',
                 'text' => 'Token not found'
             ],
             'tokenExpired' => [
                 'code' => 400,
-                'class' => 'Cake\Network\Exception\BadRequestException',
+                'class' => 'Cake\Http\Exception\BadRequestException',
                 'text' => 'Token has expired'
             ],
         ],
@@ -68,7 +67,7 @@ class VerifyAction extends BaseAction
      * HTTP GET handler
      *
      * @param string $token Token
-     * @return \Cake\Network\Response
+     * @return \Cake\Http\Response
      */
     protected function _get($token = null)
     {
@@ -113,7 +112,7 @@ class VerifyAction extends BaseAction
     /**
      * Post success callback
      *
-     * @return \Cake\Network\Response
+     * @return \Cake\Http\Response
      */
     protected function _success()
     {
@@ -122,10 +121,10 @@ class VerifyAction extends BaseAction
         $this->_trigger('afterVerify', $subject);
         $this->setFlash('success', $subject);
 
-        $redirectUrl = $this->config('redirectUrl');
+        $redirectUrl = $this->getConfig('redirectUrl');
 
         if (!$redirectUrl && $this->_controller()->components()->has('Auth')) {
-            $redirectUrl = $this->_controller()->Auth->config('loginAction');
+            $redirectUrl = $this->_controller()->Auth->getConfig('loginAction');
         }
 
         return $this->_redirect($subject, $redirectUrl);
