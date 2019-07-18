@@ -22,12 +22,12 @@
         }
     ],
     "require":{
-        "cakephp/cakephp":"dev-3.next as 3.6",
-        "friendsofcake/crud":"dev-cake-36"
+        "cakephp/cakephp":"4.x-dev",
+        "friendsofcake/crud":"dev-cake-4.x"
     },
     "require-dev":{
-        "phpunit/phpunit":"^5.7.14|^6.0",
-        "friendsofcake/cakephp-test-utilities":"^1.0"
+        "phpunit/phpunit":"^8.0",
+        "friendsofcake/cakephp-test-utilities":"dev-cake-4.x"
     },
     "autoload":{
         "psr-4":{
@@ -38,5 +38,7 @@
         "psr-4":{
             "CrudUsers\\Test\\":"tests"
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
