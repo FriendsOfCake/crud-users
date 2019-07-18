@@ -108,7 +108,7 @@ class ForgotPasswordAction extends BaseAction
         if ($this->getConfig('redirectUrl') === null) {
             $redirectUrl = $this->_controller()->Auth->getConfig('loginAction');
         } else {
-            $redirectUrl = $this->config('redirectUrl');
+            $redirectUrl = $this->getConfig('redirectUrl');
         }
 
         return $this->_redirect($subject, $redirectUrl);
