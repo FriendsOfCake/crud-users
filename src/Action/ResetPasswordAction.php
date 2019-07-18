@@ -153,7 +153,7 @@ class ResetPasswordAction extends BaseAction
         $this->_trigger('afterResetPassword', $subject);
         $this->setFlash('success', $subject);
 
-        if ($this->config('redirectUrl') === null) {
+        if ($this->getConfig('redirectUrl') === null) {
             $redirectUrl = $this->_controller()->Auth->getConfig('loginAction');
         } else {
             $redirectUrl = $this->getConfig('redirectUrl');
