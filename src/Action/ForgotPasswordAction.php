@@ -46,7 +46,7 @@ class ForgotPasswordAction extends BaseAction
     {
         $subject = $this->_subject([
             'success' => true,
-            'entity' => $this->_entity($this->_request()->getQueryParams() ?: null)
+            'entity' => $this->_entity($this->_request()->getQueryParams() ?: [])
         ]);
 
         $this->_trigger('beforeRender', $subject);
