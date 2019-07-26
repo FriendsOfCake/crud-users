@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace CrudUsers\Action;
 
@@ -11,7 +12,6 @@ use Crud\Traits\ViewVarTrait;
 
 class RegisterAction extends BaseAction
 {
-
     use RedirectTrait;
     use SaveMethodTrait;
     use ViewTrait;
@@ -33,23 +33,23 @@ class RegisterAction extends BaseAction
             'success' => [
                 'code' => 201,
                 'data' => [
-                    'entity' => ['id']
-                ]
+                    'entity' => ['id'],
+                ],
             ],
             'error' => [
                 'exception' => [
                     'type' => 'validate',
-                    'class' => '\Crud\Error\Exception\ValidationException'
-                ]
-            ]
+                    'class' => '\Crud\Error\Exception\ValidationException',
+                ],
+            ],
         ],
         'messages' => [
             'success' => [
-                'text' => 'Account successfully created'
+                'text' => 'Account successfully created',
             ],
             'error' => [
-                'text' => 'Please fix the errors and try again'
-            ]
+                'text' => 'Please fix the errors and try again',
+            ],
         ],
     ];
 
@@ -65,7 +65,7 @@ class RegisterAction extends BaseAction
             'entity' => $this->_entity(
                 $this->_request()->getQueryParams() ?: [],
                 $this->saveOptions()
-            )
+            ),
         ]);
 
         $this->_trigger('beforeRender', $subject);
@@ -81,7 +81,7 @@ class RegisterAction extends BaseAction
         $subject = $this->_subject([
             'entity' => $this->_entity($this->_request()->getData(), $this->saveOptions()),
             'saveMethod' => $this->saveMethod(),
-            'saveOptions' => $this->saveOptions()
+            'saveOptions' => $this->saveOptions(),
         ]);
 
         $this->_trigger('beforeRegister', $subject);

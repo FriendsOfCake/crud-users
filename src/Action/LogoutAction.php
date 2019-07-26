@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace CrudUsers\Action;
 
@@ -7,16 +8,15 @@ use Crud\Traits\RedirectTrait;
 
 class LogoutAction extends BaseAction
 {
-
     use RedirectTrait;
 
     protected $_defaultConfig = [
         'enabled' => true,
         'messages' => [
             'success' => [
-                'text' => 'Successfully logged you out'
+                'text' => 'Successfully logged you out',
             ],
-        ]
+        ],
     ];
 
     /**
@@ -31,7 +31,7 @@ class LogoutAction extends BaseAction
 
         $subject->set([
             'success' => true,
-            'redirectUrl' => $this->_controller()->Auth->logout()
+            'redirectUrl' => $this->_controller()->Auth->logout(),
         ]);
 
         $this->_trigger('afterLogout', $subject);

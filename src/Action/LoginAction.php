@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace CrudUsers\Action;
 
@@ -8,18 +9,17 @@ use Crud\Traits\RedirectTrait;
 
 class LoginAction extends BaseAction
 {
-
     use RedirectTrait;
 
     protected $_defaultConfig = [
         'enabled' => true,
         'messages' => [
             'success' => [
-                'text' => 'Successfully logged you in'
+                'text' => 'Successfully logged you in',
             ],
             'error' => [
-                'text' => 'Invalid credentials, please try again'
-            ]
+                'text' => 'Invalid credentials, please try again',
+            ],
         ],
     ];
 
@@ -48,7 +48,8 @@ class LoginAction extends BaseAction
 
         $this->_trigger('beforeLogin', $subject);
 
-        if ($user = $this->_controller()->Auth->identify()) {
+        $user = $this->_controller()->Auth->identify();
+        if ($user) {
             return $this->_success($subject, $user);
         }
 
