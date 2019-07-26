@@ -1,8 +1,8 @@
 <?php
+declare(strict_types=1);
 
 namespace CrudUsers\Action;
 
-use CrudUsers\Traits\VerifyTrait;
 use Crud\Action\BaseAction;
 use Crud\Event\Subject;
 use Crud\Traits\FindMethodTrait;
@@ -10,10 +10,10 @@ use Crud\Traits\RedirectTrait;
 use Crud\Traits\SaveMethodTrait;
 use Crud\Traits\ViewTrait;
 use Crud\Traits\ViewVarTrait;
+use CrudUsers\Traits\VerifyTrait;
 
 class ResetPasswordAction extends BaseAction
 {
-
     use FindMethodTrait;
     use RedirectTrait;
     use SaveMethodTrait;
@@ -32,31 +32,31 @@ class ResetPasswordAction extends BaseAction
         'api' => [
             'methods' => ['put', 'post'],
             'success' => [
-                'code' => 200
+                'code' => 200,
             ],
             'error' => [
                 'exception' => [
                     'type' => 'validate',
-                    'class' => '\Crud\Error\Exception\ValidationException'
-                ]
-            ]
+                    'class' => '\Crud\Error\Exception\ValidationException',
+                ],
+            ],
         ],
         'messages' => [
             'success' => [
-                'text' => 'Account updated successfully'
+                'text' => 'Account updated successfully',
             ],
             'error' => [
-                'text' => 'Could not update the account'
+                'text' => 'Could not update the account',
             ],
             'tokenNotFound' => [
                 'code' => 404,
                 'class' => 'Cake\Http\Exception\NotFoundException',
-                'text' => 'Token not found'
+                'text' => 'Token not found',
             ],
             'tokenExpired' => [
                 'code' => 400,
                 'class' => 'Cake\Http\Exception\BadRequestException',
-                'text' => 'Token has expired'
+                'text' => 'Token has expired',
             ],
         ],
         'redirectUrl' => null,
@@ -75,7 +75,7 @@ class ResetPasswordAction extends BaseAction
         $subject = $this->_subject([
             'success' => true,
             'entity' => $this->_table()->newEntity(),
-            'token' => $token
+            'token' => $token,
         ]);
 
         $this->_trigger('beforeRender', $subject);

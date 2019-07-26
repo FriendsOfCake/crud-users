@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace CrudUsers\Traits;
 
 trait VerifyTrait
@@ -48,7 +50,7 @@ trait VerifyTrait
                 $this->findMethod(),
                 [
                     'token' => $token,
-                    'conditions' => [$this->_table()->aliasField($this->getConfig('tokenField')) => $token]
+                    'conditions' => [$this->_table()->aliasField($this->getConfig('tokenField')) => $token],
                 ]
             ),
         ]);

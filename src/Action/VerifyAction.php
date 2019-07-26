@@ -1,19 +1,19 @@
 <?php
+declare(strict_types=1);
 
 namespace CrudUsers\Action;
 
 use Cake\Datasource\EntityInterface;
-use CrudUsers\Traits\VerifyTrait;
 use Crud\Action\BaseAction;
 use Crud\Traits\FindMethodTrait;
 use Crud\Traits\RedirectTrait;
 use Crud\Traits\SaveMethodTrait;
 use Crud\Traits\ViewTrait;
 use Crud\Traits\ViewVarTrait;
+use CrudUsers\Traits\VerifyTrait;
 
 class VerifyAction extends BaseAction
 {
-
     use FindMethodTrait;
     use RedirectTrait;
     use SaveMethodTrait;
@@ -33,31 +33,31 @@ class VerifyAction extends BaseAction
         'api' => [
             'methods' => ['put', 'post'],
             'success' => [
-                'code' => 200
+                'code' => 200,
             ],
             'error' => [
                 'exception' => [
                     'type' => 'validate',
-                    'class' => '\Crud\Error\Exception\ValidationException'
-                ]
-            ]
+                    'class' => '\Crud\Error\Exception\ValidationException',
+                ],
+            ],
         ],
         'messages' => [
             'success' => [
-                'text' => 'Account verified successfully'
+                'text' => 'Account verified successfully',
             ],
             'error' => [
-                'text' => 'Could not verify the account'
+                'text' => 'Could not verify the account',
             ],
             'tokenNotFound' => [
                 'code' => 404,
                 'class' => 'Cake\Http\Exception\NotFoundException',
-                'text' => 'Token not found'
+                'text' => 'Token not found',
             ],
             'tokenExpired' => [
                 'code' => 400,
                 'class' => 'Cake\Http\Exception\BadRequestException',
-                'text' => 'Token has expired'
+                'text' => 'Token has expired',
             ],
         ],
         'redirectUrl' => null,

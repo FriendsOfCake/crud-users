@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace CrudUsers\Action;
 
@@ -11,7 +12,6 @@ use Crud\Traits\ViewVarTrait;
 
 class ForgotPasswordAction extends BaseAction
 {
-
     use FindMethodTrait;
     use RedirectTrait;
     use ViewTrait;
@@ -25,16 +25,16 @@ class ForgotPasswordAction extends BaseAction
         'tokenField' => 'token',
         'messages' => [
             'success' => [
-                'text' => 'A recovery email has been sent successfully'
+                'text' => 'A recovery email has been sent successfully',
             ],
             'error' => [
-                'text' => 'No search results found'
-            ]
+                'text' => 'No search results found',
+            ],
         ],
         'redirectUrl' => null,
         'serialize' => [],
         'view' => null,
-        'viewVar' => null
+        'viewVar' => null,
     ];
 
     /**
@@ -46,7 +46,7 @@ class ForgotPasswordAction extends BaseAction
     {
         $subject = $this->_subject([
             'success' => true,
-            'entity' => $this->_entity($this->_request()->getQueryParams() ?: [])
+            'entity' => $this->_entity($this->_request()->getQueryParams() ?: []),
         ]);
 
         $this->_trigger('beforeRender', $subject);
@@ -61,7 +61,7 @@ class ForgotPasswordAction extends BaseAction
     {
         $subject = $this->_subject([
             'findConfig' => $this->_getFindConfig(),
-            'findMethod' => $this->getConfig('findMethod')
+            'findMethod' => $this->getConfig('findMethod'),
         ]);
 
         $this->_trigger('beforeForgotPassword', $subject);
