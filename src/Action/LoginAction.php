@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace CrudUsers\Action;
 
+use Cake\Http\Response;
 use Crud\Action\BaseAction;
 use Crud\Event\Subject;
 use Crud\Traits\RedirectTrait;
@@ -40,7 +41,7 @@ class LoginAction extends BaseAction
     /**
      * HTTP POST handler
      *
-     * @return \Cake\Http\Response
+     * @return \Cake\Http\Response|void
      */
     protected function _post()
     {
@@ -63,7 +64,7 @@ class LoginAction extends BaseAction
      * @param array $user Authenticated user record data.
      * @return \Cake\Http\Response
      */
-    protected function _success(Subject $subject, array $user)
+    protected function _success(Subject $subject, array $user): Response
     {
         $subject->set(['success' => true, 'user' => $user]);
 

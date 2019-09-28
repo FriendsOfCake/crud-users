@@ -60,6 +60,7 @@ class ResetPasswordAction extends BaseAction
             ],
         ],
         'redirectUrl' => null,
+        'tokenField' => 'token',
     ];
 
     /**
@@ -68,13 +69,13 @@ class ResetPasswordAction extends BaseAction
      * @param string $token Token
      * @return void
      */
-    protected function _get($token = null)
+    protected function _get(?string $token = null)
     {
         $token = $this->_token($token);
 
         $subject = $this->_subject([
             'success' => true,
-            'entity' => $this->_table()->newEntity(),
+            'entity' => $this->_table()->newEmptyEntity(),
             'token' => $token,
         ]);
 
@@ -100,7 +101,7 @@ class ResetPasswordAction extends BaseAction
      * @param string|null $token Token
      * @return void|\Cake\Http\Response
      */
-    protected function _put($token = null)
+    protected function _put(?string $token = null)
     {
         $entity = $this->_verify($this->_token($token));
 

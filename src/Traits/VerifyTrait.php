@@ -11,7 +11,7 @@ trait VerifyTrait
      * @param string|null $token Token
      * @return string|null Token if found or null
      */
-    protected function _token($token = null)
+    protected function _token(?string $token = null): ?string
     {
         if ($token) {
             return $token;
@@ -33,10 +33,10 @@ trait VerifyTrait
     /**
      * Verify token
      *
-     * @param string $token Token.
-     * @return \Cake\Datasource\EntityTrait|null
+     * @param string|null $token Token.
+     * @return \Cake\Datasource\EntityInterface|null
      */
-    protected function _verify($token)
+    protected function _verify(?string $token)
     {
         if (empty($token)) {
             $this->_tokenError();
