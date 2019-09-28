@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace CrudUsers\Action;
 
 use Cake\Datasource\EntityInterface;
+use Cake\Http\Response;
 use Crud\Action\BaseAction;
 use Crud\Traits\FindMethodTrait;
 use Crud\Traits\RedirectTrait;
@@ -114,7 +115,7 @@ class VerifyAction extends BaseAction
      *
      * @return \Cake\Http\Response
      */
-    protected function _success()
+    protected function _success(): Response
     {
         $subject = $this->_subject(['success' => true]);
 

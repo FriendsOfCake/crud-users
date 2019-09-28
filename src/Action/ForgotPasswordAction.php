@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace CrudUsers\Action;
 
+use Cake\Http\Response;
 use Crud\Action\BaseAction;
 use Crud\Event\Subject;
 use Crud\Traits\FindMethodTrait;
@@ -20,7 +21,6 @@ class ForgotPasswordAction extends BaseAction
     protected $_defaultConfig = [
         'enabled' => true,
         'scope' => 'entity',
-        'findConfig' => [],
         'findMethod' => 'all',
         'tokenField' => 'token',
         'messages' => [
@@ -46,7 +46,10 @@ class ForgotPasswordAction extends BaseAction
     {
         $subject = $this->_subject([
             'success' => true,
-            'entity' => $this->_entity($this->_request()->getQueryParams() ?: []),
+            'entity' => $this->_entity(
+                $this->_request()->getQueryParams(),
+                ['validate' => false]
+            ),
         ]);
 
         $this->_trigger('beforeRender', $subject);
@@ -60,14 +63,13 @@ class ForgotPasswordAction extends BaseAction
     protected function _post()
     {
         $subject = $this->_subject([
-            'findConfig' => $this->_getFindConfig(),
-            'findMethod' => $this->getConfig('findMethod'),
+            'findMethod' => $this->_getFindConfig(),
         ]);
 
         $this->_trigger('beforeForgotPassword', $subject);
 
         $entity = $this->_table()
-            ->find($subject->findMethod, $subject->findConfig)
+            ->find($subject->findMethod[0], $subject->findMethod[1])
             ->first();
 
         if (empty($entity)) {
@@ -83,13 +85,18 @@ class ForgotPasswordAction extends BaseAction
      * Get the query configuration
      *
      * @return array
+     * @psalm-return array{string, array}
      */
-    protected function _getFindConfig()
+    protected function _getFindConfig(): array
     {
-        $config = $this->getConfig('findConfig', []) + ['conditions' => []];
-        $config['conditions'] = array_merge($config['conditions'], $this->_request()->getData());
+        $finder = $this->_extractFinder();
+        if (isset($finder[1]['conditions'])) {
+            $finder[1]['conditions'] = array_merge($finder[1]['conditions'], $this->_request()->getData());
+        } else {
+            $finder[1]['conditions'] = $this->_request()->getData();
+        }
 
-        return $config;
+        return $finder;
     }
 
     /**
@@ -98,7 +105,7 @@ class ForgotPasswordAction extends BaseAction
      * @param \Crud\Event\Subject $subject Event subject
      * @return \Cake\Http\Response
      */
-    protected function _success(Subject $subject)
+    protected function _success(Subject $subject): Response
     {
         $subject->set(['success' => true]);
 
