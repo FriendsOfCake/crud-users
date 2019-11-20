@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace CrudUsers\Traits;
 
+use Cake\Datasource\EntityInterface;
+
 trait VerifyTrait
 {
     /**
@@ -34,9 +36,9 @@ trait VerifyTrait
      * Verify token
      *
      * @param string|null $token Token.
-     * @return \Cake\Datasource\EntityInterface|null
+     * @return \Cake\Datasource\EntityInterface
      */
-    protected function _verify(?string $token)
+    protected function _verify(?string $token): EntityInterface
     {
         if (empty($token)) {
             $this->_tokenError();
