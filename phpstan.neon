@@ -1,3 +1,37 @@
 parameters:
+    level: 7
     universalObjectCratesClasses:
         - Crud\Event\Subject
+    ignoreErrors:
+        -
+            message: "#^Parameter \\#2 \\$user of method CrudUsers\\\\Action\\\\LoginAction\\:\\:_success\\(\\) expects array, \\(array\\)\\|true given\\.$#"
+            count: 1
+            path: src/Action/LoginAction.ph
+        -
+            message: "#^Trying to invoke array\\(Cake\\\\ORM\\\\Table, mixed\\) but it might not be a callable\\.$#"
+            count: 1
+            path: src/Action/RegisterAction.php
+        -
+            message: "#^Parameter \\#1 \\$function of function call_user_func expects callable\\(\\)\\: mixed, array\\(Cake\\\\ORM\\\\Table, mixed\\) given\\.$#"
+            count: 1
+            path: src/Action/ResetPasswordAction.php
+        -
+            message: "#^Method CrudUsers\\\\Action\\\\ResetPasswordAction\\:\\:_token\\(\\) should return string\\|null but returns array\\|string\\|null\\.$#"
+            count: 1
+            path: src/Action/ResetPasswordAction.php
+        -
+            message: "#^Parameter \\#1 \\$type of method Cake\\\\ORM\\\\Table\\:\\:find\\(\\) expects string, array\\|string given\\.$#"
+            count: 1
+            path: src/Action/ResetPasswordAction.php
+        -
+            message: "#^Parameter \\#1 \\$function of function call_user_func expects callable\\(\\)\\: mixed, array\\(Cake\\\\ORM\\\\Table, mixed\\) given\\.$#"
+            count: 1
+            path: src/Action/VerifyAction.php
+        -
+            message: "#^Method CrudUsers\\\\Action\\\\VerifyAction\\:\\:_token\\(\\) should return string\\|null but returns array\\|string\\|null\\.$#"
+            count: 1
+            path: src/Action/VerifyAction.php
+        -
+            message: "#^Parameter \\#1 \\$type of method Cake\\\\ORM\\\\Table\\:\\:find\\(\\) expects string, array\\|string given\\.$#"
+            count: 1
+            path: src/Action/VerifyAction.php

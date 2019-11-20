@@ -107,7 +107,7 @@ class RegisterAction extends BaseAction
         $this->_trigger('afterRegister', $subject);
         $this->setFlash('success', $subject);
 
-        $redirectUrl = $this->config('redirectUrl');
+        $redirectUrl = $this->getConfig('redirectUrl');
         if ($redirectUrl === null && $this->_controller()->components()->has('Auth')) {
             $redirectUrl = $this->_controller()->Auth->getConfig('loginAction');
         }
