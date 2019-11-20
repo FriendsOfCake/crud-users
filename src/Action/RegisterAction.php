@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace CrudUsers\Action;
 
 use Crud\Action\BaseAction;
+use Crud\Error\Exception\ValidationException;
 use Crud\Event\Subject;
 use Crud\Traits\RedirectTrait;
 use Crud\Traits\SaveMethodTrait;
@@ -39,7 +40,7 @@ class RegisterAction extends BaseAction
             'error' => [
                 'exception' => [
                     'type' => 'validate',
-                    'class' => '\Crud\Error\Exception\ValidationException',
+                    'class' => ValidationException::class,
                 ],
             ],
         ],

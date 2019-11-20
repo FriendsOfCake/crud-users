@@ -3,7 +3,10 @@ declare(strict_types=1);
 
 namespace CrudUsers\Action;
 
+use Cake\Http\Exception\BadRequestException;
+use Cake\Http\Exception\NotFoundException;
 use Crud\Action\BaseAction;
+use Crud\Error\Exception\ValidationException;
 use Crud\Event\Subject;
 use Crud\Traits\FindMethodTrait;
 use Crud\Traits\RedirectTrait;
@@ -37,7 +40,7 @@ class ResetPasswordAction extends BaseAction
             'error' => [
                 'exception' => [
                     'type' => 'validate',
-                    'class' => '\Crud\Error\Exception\ValidationException',
+                    'class' => ValidationException::class,
                 ],
             ],
         ],
@@ -50,12 +53,12 @@ class ResetPasswordAction extends BaseAction
             ],
             'tokenNotFound' => [
                 'code' => 404,
-                'class' => 'Cake\Http\Exception\NotFoundException',
+                'class' => NotFoundException::class,
                 'text' => 'Token not found',
             ],
             'tokenExpired' => [
                 'code' => 400,
-                'class' => 'Cake\Http\Exception\BadRequestException',
+                'class' => BadRequestException::class,
                 'text' => 'Token has expired',
             ],
         ],
