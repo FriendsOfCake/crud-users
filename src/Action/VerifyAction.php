@@ -4,8 +4,11 @@ declare(strict_types=1);
 namespace CrudUsers\Action;
 
 use Cake\Datasource\EntityInterface;
+use Cake\Http\Exception\BadRequestException;
+use Cake\Http\Exception\NotFoundException;
 use Cake\Http\Response;
 use Crud\Action\BaseAction;
+use Crud\Error\Exception\ValidationException;
 use Crud\Traits\FindMethodTrait;
 use Crud\Traits\RedirectTrait;
 use Crud\Traits\SaveMethodTrait;
@@ -39,7 +42,7 @@ class VerifyAction extends BaseAction
             'error' => [
                 'exception' => [
                     'type' => 'validate',
-                    'class' => '\Crud\Error\Exception\ValidationException',
+                    'class' => ValidationException::class,
                 ],
             ],
         ],
@@ -52,12 +55,12 @@ class VerifyAction extends BaseAction
             ],
             'tokenNotFound' => [
                 'code' => 404,
-                'class' => 'Cake\Http\Exception\NotFoundException',
+                'class' => NotFoundException::class,
                 'text' => 'Token not found',
             ],
             'tokenExpired' => [
                 'code' => 400,
-                'class' => 'Cake\Http\Exception\BadRequestException',
+                'class' => BadRequestException::class,
                 'text' => 'Token has expired',
             ],
         ],
