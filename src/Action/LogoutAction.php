@@ -17,6 +17,7 @@ class LogoutAction extends BaseAction
                 'text' => 'Successfully logged you out',
             ],
         ],
+        'redirectUrl' => null,
     ];
 
     /**
@@ -29,9 +30,15 @@ class LogoutAction extends BaseAction
         $subject = $this->_subject();
         $this->_trigger('beforeLogout', $subject);
 
+        $redirectUrl = $this->_controller()->Authentication->logout();
+        $redirectUrl = $this->getConfig('redirectUrl', $redirectUrl);
+        if ($redirectUrl === false) {
+            $redirectUrl = ['controller' => 'Users', 'action' => 'login'];
+        }
+
         $subject->set([
             'success' => true,
-            'redirectUrl' => $this->_controller()->Auth->logout(),
+            'redirectUrl' => $redirectUrl,
         ]);
 
         $this->_trigger('afterLogout', $subject);
