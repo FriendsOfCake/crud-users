@@ -25,10 +25,10 @@ class ForgotPasswordAction extends BaseAction
         'tokenField' => 'token',
         'messages' => [
             'success' => [
-                'text' => 'A recovery email has been sent successfully',
+                'text' => 'A recovery email has been sent',
             ],
             'error' => [
-                'text' => 'No search results found',
+                'text' => 'No matching user found',
             ],
         ],
         'serialize' => [],
