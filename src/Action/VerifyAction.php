@@ -64,7 +64,7 @@ class VerifyAction extends BaseAction
                 'text' => 'Token has expired',
             ],
         ],
-        'redirectUrl' => null,
+        'redirectUrl' => ['controller' => 'Users', 'action' => 'login'],
     ];
 
     /**
@@ -126,10 +126,6 @@ class VerifyAction extends BaseAction
         $this->setFlash('success', $subject);
 
         $redirectUrl = $this->getConfig('redirectUrl');
-
-        if (!$redirectUrl && $this->_controller()->components()->has('Auth')) {
-            $redirectUrl = $this->_controller()->Auth->getConfig('loginAction');
-        }
 
         return $this->_redirect($subject, $redirectUrl);
     }

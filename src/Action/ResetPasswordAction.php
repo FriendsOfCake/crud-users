@@ -62,7 +62,7 @@ class ResetPasswordAction extends BaseAction
                 'text' => 'Token has expired',
             ],
         ],
-        'redirectUrl' => null,
+        'redirectUrl' => ['controller' => 'Users', 'action' => 'login'],
         'tokenField' => 'token',
     ];
 
@@ -104,7 +104,7 @@ class ResetPasswordAction extends BaseAction
      * @param string|null $token Token
      * @return void|\Cake\Http\Response
      */
-    protected function _put(?string $token = null)
+    protected function _put($token = null)
     {
         $entity = $this->_verify($this->_token($token));
 
@@ -157,11 +157,7 @@ class ResetPasswordAction extends BaseAction
         $this->_trigger('afterResetPassword', $subject);
         $this->setFlash('success', $subject);
 
-        if ($this->getConfig('redirectUrl') === null) {
-            $redirectUrl = $this->_controller()->Auth->getConfig('loginAction');
-        } else {
-            $redirectUrl = $this->getConfig('redirectUrl');
-        }
+        $redirectUrl = $this->getConfig('redirectUrl');
 
         return $this->_redirect($subject, $redirectUrl);
     }

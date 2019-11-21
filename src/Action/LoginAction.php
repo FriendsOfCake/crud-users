@@ -22,18 +22,25 @@ class LoginAction extends BaseAction
                 'text' => 'Invalid credentials, please try again',
             ],
         ],
+        'redirectUrl' => '/',
     ];
 
     /**
      * HTTP GET handler
      *
-     * @return void
+     * @return \Cake\Http\Response|void
      */
     protected function _get()
     {
+        $result = $this->_controller()->Authentication->getResult();
         $subject = $this->_subject([
             'success' => true,
+            'result' => $result,
         ]);
+
+        if ($result && $result->isValid()) {
+            return $this->_success($subject);
+        }
 
         $this->_trigger('beforeRender', $subject);
     }
@@ -45,13 +52,13 @@ class LoginAction extends BaseAction
      */
     protected function _post()
     {
-        $subject = $this->_subject();
+        $result = $this->_controller()->Authentication->getResult();
+        $subject = $this->_subject([
+            'result' => $result,
+        ]);
 
-        $this->_trigger('beforeLogin', $subject);
-
-        $user = $this->_controller()->Auth->identify();
-        if ($user) {
-            return $this->_success($subject, $user);
+        if ($result && $result->isValid()) {
+            return $this->_success($subject);
         }
 
         $this->_error($subject);
@@ -61,21 +68,23 @@ class LoginAction extends BaseAction
      * Post success callback
      *
      * @param \Crud\Event\Subject $subject Event subject.
-     * @param array $user Authenticated user record data.
      * @return \Cake\Http\Response
      */
-    protected function _success(Subject $subject, array $user): Response
+    protected function _success(Subject $subject): Response
     {
-        $subject->set(['success' => true, 'user' => $user]);
+        $subject->set([
+            'success' => true,
+            'identity' => $this->_controller()->Authentication->getIdentity(),
+        ]);
 
-        $this->_trigger('afterLogin', $subject);
-        $this->_controller()->Auth->setUser($subject->user);
-        $this->setFlash('success', $subject);
+        if ($this->_request()->is('post')) {
+            $this->setFlash('success', $subject);
+        }
 
-        return $this->_redirect(
-            $subject,
-            $this->_controller()->Auth->redirectUrl()
-        );
+        $redirectUrl = $this->_controller()->Authentication->getLoginRedirect()
+                ?? $this->getConfig('redirectUrl');
+
+        return $this->_redirect($subject, $redirectUrl);
     }
 
     /**
@@ -88,7 +97,6 @@ class LoginAction extends BaseAction
     {
         $subject->set(['success' => false]);
 
-        $this->_trigger('afterLogin', $subject);
         $this->setFlash('error', $subject);
         $this->_trigger('beforeRender', $subject);
     }
