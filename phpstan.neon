@@ -4,9 +4,13 @@ parameters:
         - Crud\Event\Subject
     ignoreErrors:
         -
-            message: "#^Parameter \\#2 \\$user of method CrudUsers\\\\Action\\\\LoginAction\\:\\:_success\\(\\) expects array, \\(array\\)\\|true given\\.$#"
+            message: "#^Access to an undefined property Cake\\\\Controller\\\\Controller\\:\\:\\$Authentication\\.$#"
+            count: 4
+            path: src/Action/LoginAction.php
+        -
+            message: "#^Access to an undefined property Cake\\\\Controller\\\\Controller\\:\\:\\$Authentication\\.$#"
             count: 1
-            path: src/Action/LoginAction.ph
+            path: src/Action/LogoutAction.php
         -
             message: "#^Trying to invoke array\\(Cake\\\\ORM\\\\Table, mixed\\) but it might not be a callable\\.$#"
             count: 1
