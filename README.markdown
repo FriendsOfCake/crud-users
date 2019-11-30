@@ -1,6 +1,6 @@
 [![Build Status](https://img.shields.io/travis/FriendsOfCake/crud-users/master.svg?style=flat-square)](https://travis-ci.org/FriendsOfCake/crud-users)
-[![Total Downloads](https://img.shields.io/packagist/dt/FriendsOfCake/crud-users.svg?style=flat-square)](https://packagist.org/packages/FriendsOfCake/crud-users)
-[![Latest Stable Version](https://img.shields.io/packagist/v/FriendsOfCake/crud-users.svg?style=flat-square)](https://packagist.org/packages/FriendsOfCake/crud-users)
+[![Total Downloads](https://img.shields.io/packagist/dt/friendsofcake/crud-users.svg?style=flat-square)](https://packagist.org/packages/friendsofcake/crud-users)
+[![Latest Stable Version](https://img.shields.io/packagist/v/friendsofcake/crud-users.svg?style=flat-square)](https://packagist.org/packages/friendsofcake/crud-users)
 [![Documentation Status](https://readthedocs.org/projects/crud-users/badge/?version=latest&style=flat-square)](https://readthedocs.org/projects/crud-users/?badge=latest)
 
 # Crud Users
