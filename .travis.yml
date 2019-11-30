@@ -7,7 +7,7 @@ php:
 
 services:
   - mysql
-  - postgres
+  - postgresql
 
 sudo: false
 
