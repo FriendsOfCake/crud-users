@@ -1,5 +1,6 @@
 parameters:
     level: 7
+    checkMissingIterableValueType: false
     universalObjectCratesClasses:
         - Crud\Event\Subject
     ignoreErrors:
@@ -7,35 +8,78 @@ parameters:
             message: "#^Access to an undefined property Cake\\\\Controller\\\\Controller\\:\\:\\$Authentication\\.$#"
             count: 4
             path: src/Action/LoginAction.php
+
+        -
+            message: "#^Method CrudUsers\\\\Action\\\\LoginAction\\:\\:_get\\(\\) should return Cake\\\\Http\\\\Response\\|void but return statement is missing\\.$#"
+            count: 1
+            path: src/Action/LoginAction.php
+
+        -
+            message: "#^Method CrudUsers\\\\Action\\\\LoginAction\\:\\:_post\\(\\) should return Cake\\\\Http\\\\Response\\|void but return statement is missing\\.$#"
+            count: 1
+            path: src/Action/LoginAction.php
+
         -
             message: "#^Access to an undefined property Cake\\\\Controller\\\\Controller\\:\\:\\$Authentication\\.$#"
             count: 1
             path: src/Action/LogoutAction.php
+
         -
             message: "#^Trying to invoke array\\(Cake\\\\ORM\\\\Table, mixed\\) but it might not be a callable\\.$#"
             count: 1
             path: src/Action/RegisterAction.php
+
+        -
+            message: "#^Method CrudUsers\\\\Action\\\\RegisterAction\\:\\:_post\\(\\) should return Cake\\\\Http\\\\Response\\|void but return statement is missing\\.$#"
+            count: 1
+            path: src/Action/RegisterAction.php
+
+        -
+            message: "#^Method CrudUsers\\\\Action\\\\ResetPasswordAction\\:\\:_put\\(\\) should return Cake\\\\Http\\\\Response\\|void but return statement is missing\\.$#"
+            count: 1
+            path: src/Action/ResetPasswordAction.php
+
         -
             message: "#^Parameter \\#1 \\$function of function call_user_func expects callable\\(\\)\\: mixed, array\\(Cake\\\\ORM\\\\Table, mixed\\) given\\.$#"
             count: 1
             path: src/Action/ResetPasswordAction.php
+
         -
             message: "#^Method CrudUsers\\\\Action\\\\ResetPasswordAction\\:\\:_token\\(\\) should return string\\|null but returns array\\|string\\|null\\.$#"
             count: 1
             path: src/Action/ResetPasswordAction.php
+
         -
             message: "#^Parameter \\#1 \\$type of method Cake\\\\ORM\\\\Table\\:\\:find\\(\\) expects string, array\\|string given\\.$#"
             count: 1
             path: src/Action/ResetPasswordAction.php
+
+        -
+            message: "#^Method CrudUsers\\\\Action\\\\ResetPasswordAction\\:\\:_verify\\(\\) should return Cake\\\\Datasource\\\\EntityInterface but return statement is missing\\.$#"
+            count: 1
+            path: src/Action/ResetPasswordAction.php
+
+        -
+            message: "#^Method CrudUsers\\\\Action\\\\VerifyAction\\:\\:_get\\(\\) should return Cake\\\\Http\\\\Response\\|void but return statement is missing\\.$#"
+            count: 1
+            path: src/Action/VerifyAction.php
+
         -
             message: "#^Parameter \\#1 \\$function of function call_user_func expects callable\\(\\)\\: mixed, array\\(Cake\\\\ORM\\\\Table, mixed\\) given\\.$#"
             count: 1
             path: src/Action/VerifyAction.php
+
         -
             message: "#^Method CrudUsers\\\\Action\\\\VerifyAction\\:\\:_token\\(\\) should return string\\|null but returns array\\|string\\|null\\.$#"
             count: 1
             path: src/Action/VerifyAction.php
+
         -
             message: "#^Parameter \\#1 \\$type of method Cake\\\\ORM\\\\Table\\:\\:find\\(\\) expects string, array\\|string given\\.$#"
+            count: 1
+            path: src/Action/VerifyAction.php
+
+        -
+            message: "#^Method CrudUsers\\\\Action\\\\VerifyAction\\:\\:_verify\\(\\) should return Cake\\\\Datasource\\\\EntityInterface but return statement is missing\\.$#"
             count: 1
             path: src/Action/VerifyAction.php

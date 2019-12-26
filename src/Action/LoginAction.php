@@ -68,9 +68,9 @@ class LoginAction extends BaseAction
      * Post success callback
      *
      * @param \Crud\Event\Subject $subject Event subject.
-     * @return \Cake\Http\Response
+     * @return \Cake\Http\Response|null
      */
-    protected function _success(Subject $subject): Response
+    protected function _success(Subject $subject): ?Response
     {
         $subject->set([
             'success' => true,
@@ -93,7 +93,7 @@ class LoginAction extends BaseAction
      * @param \Crud\Event\Subject $subject Event subject
      * @return void
      */
-    protected function _error(Subject $subject)
+    protected function _error(Subject $subject): void
     {
         $subject->set(['success' => false]);
 
