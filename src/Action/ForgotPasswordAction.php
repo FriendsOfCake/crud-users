@@ -72,7 +72,9 @@ class ForgotPasswordAction extends BaseAction
             ->first();
 
         if (empty($entity)) {
-            return $this->_error($subject);
+            $this->_error($subject);
+
+            return;
         }
 
         $subject->set(['entity' => $entity]);
@@ -84,7 +86,6 @@ class ForgotPasswordAction extends BaseAction
      * Get the query configuration
      *
      * @return array
-     * @psalm-return array{string, array}
      */
     protected function _getFindConfig(): array
     {
@@ -104,7 +105,7 @@ class ForgotPasswordAction extends BaseAction
      * @param \Crud\Event\Subject $subject Event subject
      * @return \Cake\Http\Response
      */
-    protected function _success(Subject $subject): Response
+    protected function _success(Subject $subject)
     {
         $subject->set(['success' => true]);
 
@@ -118,9 +119,9 @@ class ForgotPasswordAction extends BaseAction
      * Post error callback
      *
      * @param \Crud\Event\Subject $subject Event subject
-     * @return void|\Cake\Http\Response
+     * @return void
      */
-    protected function _error(Subject $subject)
+    protected function _error(Subject $subject): void
     {
         $subject->set(['success' => false, 'entity' => null]);
 

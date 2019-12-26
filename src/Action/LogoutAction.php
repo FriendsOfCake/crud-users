@@ -23,7 +23,7 @@ class LogoutAction extends BaseAction
     /**
      * HTTP GET handler
      *
-     * @return void|\Cake\Http\Response
+     * @return \Cake\Http\Response|null
      */
     protected function _get()
     {

@@ -5,6 +5,7 @@ namespace CrudUsers\Action;
 
 use Cake\Http\Exception\BadRequestException;
 use Cake\Http\Exception\NotFoundException;
+use Cake\Http\Response;
 use Crud\Action\BaseAction;
 use Crud\Error\Exception\ValidationException;
 use Crud\Event\Subject;
@@ -113,14 +114,14 @@ class ResetPasswordAction extends BaseAction
             return $this->_success($subject);
         }
 
-        return $this->_error($subject);
+        $this->_error($subject);
     }
 
     /**
      * Save the updated record
      *
      * @param \Crud\Event\Subject $subject Event subject
-     * @return bool
+     * @return \Cake\Datasource\EntityInterface|false
      */
     protected function _save(Subject $subject)
     {
@@ -150,7 +151,7 @@ class ResetPasswordAction extends BaseAction
      * @param \Crud\Event\Subject $subject Event subject
      * @return \Cake\Http\Response
      */
-    protected function _success(Subject $subject)
+    protected function _success(Subject $subject): ?Response
     {
         $subject->set(['success' => true]);
 
@@ -166,9 +167,9 @@ class ResetPasswordAction extends BaseAction
      * Post error callback
      *
      * @param \Crud\Event\Subject $subject Event subject
-     * @return void|\Cake\Http\Response
+     * @return void
      */
-    protected function _error(Subject $subject)
+    protected function _error(Subject $subject): void
     {
         $subject->set(['success' => false]);
 

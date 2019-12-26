@@ -91,7 +91,7 @@ trait VerifyTrait
         $subject = $this->_subject(['success' => false]);
         $this->_trigger($error, $subject);
 
-        $message = $this->message($error, compact('token'));
+        $message = $this->message($error);
         $exceptionClass = $message['class'];
         throw new $exceptionClass($message['text'], $message['code']);
     }

@@ -71,7 +71,7 @@ class VerifyAction extends BaseAction
      * HTTP GET handler
      *
      * @param string $token Token
-     * @return \Cake\Http\Response
+     * @return \Cake\Http\Response|void
      */
     protected function _get($token = null)
     {
@@ -89,7 +89,7 @@ class VerifyAction extends BaseAction
      * Save the updated record
      *
      * @param \Cake\Datasource\EntityInterface $entity Entity
-     * @return bool
+     * @return \Cake\Datasource\EntityInterface|false
      */
     protected function _save(EntityInterface $entity)
     {
@@ -116,9 +116,9 @@ class VerifyAction extends BaseAction
     /**
      * Post success callback
      *
-     * @return \Cake\Http\Response
+     * @return \Cake\Http\Response|null
      */
-    protected function _success(): Response
+    protected function _success(): ?Response
     {
         $subject = $this->_subject(['success' => true]);
 
@@ -135,7 +135,7 @@ class VerifyAction extends BaseAction
      *
      * @return void
      */
-    protected function _error()
+    protected function _error(): void
     {
         $subject = $this->_subject(['success' => false]);
 
