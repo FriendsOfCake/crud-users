@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace CrudUsers\Action;
 
-use Cake\Http\Response;
 use Crud\Action\BaseAction;
 use Crud\Event\Subject;
 use Crud\Traits\FindMethodTrait;
