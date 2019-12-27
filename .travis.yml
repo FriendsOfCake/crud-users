@@ -33,9 +33,9 @@ before_script:
   - if [[ $DB = 'mysql' ]]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi
   - if [[ $DB = 'pgsql' ]]; then psql -c 'CREATE DATABASE cakephp_test;' -U postgres; fi
 
-  - if [[ $PHPCS = 1 ]]; then composer require cakephp/cakephp-codesniffer:dev-next; fi
+  - if [[ $PHPCS = 1 ]]; then composer require cakephp/cakephp-codesniffer:^4.0; fi
 
-  - if [[ $PHPSTAN = 1 ]]; then composer require phpstan/phpstan-shim:^0.11; fi
+  - if [[ $PHPSTAN = 1 ]]; then composer require phpstan/phpstan:^0.12; fi
 
 script:
   - if [[ $DEFAULT = 1 && $TRAVIS_PHP_VERSION != 7.2 ]]; then vendor/bin/phpunit; fi

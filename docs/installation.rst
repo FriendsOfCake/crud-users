@@ -7,6 +7,7 @@ Requirements
 ------------
 
 * CakePHP 3.x
+* PHP 5.6+
 
 Getting the Code
 ----------------
