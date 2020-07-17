@@ -73,7 +73,7 @@ class ResetPasswordAction extends BaseAction
      * @param string $token Token
      * @return void
      */
-    protected function _get(?string $token = null)
+    protected function _get(?string $token = null): void
     {
         $token = $this->_token($token);
 
@@ -92,7 +92,7 @@ class ResetPasswordAction extends BaseAction
      * Thin proxy for _put
      *
      * @param string|null $token Token
-     * @return void|\Cake\Http\Response
+     * @return \Cake\Http\Response|null|void
      */
     protected function _post($token = null)
     {
@@ -103,7 +103,7 @@ class ResetPasswordAction extends BaseAction
      * HTTP PUT handler
      *
      * @param string|null $token Token
-     * @return void|\Cake\Http\Response
+     * @return \Cake\Http\Response|null|void
      */
     protected function _put($token = null)
     {
@@ -134,11 +134,11 @@ class ResetPasswordAction extends BaseAction
 
         $this->_trigger('beforeSave', $subject);
 
-        $success = call_user_func(
-            [$this->_table(), $this->saveMethod()],
-            $entity,
-            $this->saveOptions()
-        );
+        /** @var callable $callable */
+        $callable = [$this->_table(), $this->saveMethod()];
+
+        /** @var \Cake\Datasource\EntityInterface|false $success */
+        $success = $callable($entity, $this->saveOptions());
 
         $this->_trigger('afterSave', $subject);
 
