@@ -17,11 +17,11 @@ parameters:
 			path: src/Action/LogoutAction.php
 
 		-
-			message: "#^Parameter \\#1 \\$type of method Cake\\\\ORM\\\\Table\\:\\:find\\(\\) expects string, array\\|string given\\.$#"
+			message: "#^Parameter \\#1 \\$type of method Cake\\\\ORM\\\\Table\\:\\:find\\(\\) expects string, \\$this\\(CrudUsers\\\\Action\\\\ResetPasswordAction\\)\\|array\\|string given\\.$#"
 			count: 1
 			path: src/Action/ResetPasswordAction.php
 
 		-
-			message: "#^Parameter \\#1 \\$type of method Cake\\\\ORM\\\\Table\\:\\:find\\(\\) expects string, array\\|string given\\.$#"
+			message: "#^Parameter \\#1 \\$type of method Cake\\\\ORM\\\\Table\\:\\:find\\(\\) expects string, \\$this\\(CrudUsers\\\\Action\\\\VerifyAction\\)\\|array\\|string given\\.$#"
 			count: 1
 			path: src/Action/VerifyAction.php
