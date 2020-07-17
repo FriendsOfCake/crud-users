@@ -76,7 +76,7 @@ class RegisterAction extends BaseAction
     /**
      * HTTP POST handler
      *
-     * @return void|\Cake\Http\Response
+     * @return \Cake\Http\Response|null|void
      */
     protected function _post()
     {
@@ -88,8 +88,9 @@ class RegisterAction extends BaseAction
 
         $this->_trigger('beforeRegister', $subject);
 
-        $saveCallback = [$this->_table(), $subject->saveMethod];
-        if ($saveCallback($subject->entity, $subject->saveOptions)) {
+        /** @var callable $callback */
+        $callback = [$this->_table(), $subject->saveMethod];
+        if ($callback($subject->entity, $subject->saveOptions)) {
             return $this->_success($subject);
         }
 

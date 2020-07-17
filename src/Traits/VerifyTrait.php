@@ -19,16 +19,19 @@ trait VerifyTrait
             return $token;
         }
 
+        /** @var string|null $token */
         $token = $this->_request()->getData('token');
         if ($token) {
             return $token;
         }
 
+        /** @var string|null $token */
         $token = $this->_request()->getParam('token');
         if ($token) {
             return $token;
         }
 
+        /** @var string|null */
         return $this->_request()->getQuery('token');
     }
 
@@ -37,6 +40,7 @@ trait VerifyTrait
      *
      * @param string|null $token Token.
      * @return \Cake\Datasource\EntityInterface
+     * @throws \Exception
      */
     protected function _verify(?string $token): EntityInterface
     {
@@ -60,7 +64,7 @@ trait VerifyTrait
         $this->_trigger('beforeFind', $subject);
         $entity = $subject->query->first();
 
-        if (empty($token)) {
+        if (empty($entity)) {
             $this->_tokenError();
         }
 
@@ -72,11 +76,11 @@ trait VerifyTrait
         }
         $this->_trigger('verifyToken', $subject);
 
-        if ($subject->verified) {
-            return $subject->entity;
+        if (!$subject->verified) {
+            $this->_tokenError('tokenExpired');
         }
 
-        $this->_tokenError('tokenExpired');
+        return $subject->entity;
     }
 
     /**
@@ -86,7 +90,7 @@ trait VerifyTrait
      * @return void
      * @throws \Exception
      */
-    protected function _tokenError($error = 'tokenNotFound')
+    protected function _tokenError($error = 'tokenNotFound'): void
     {
         $subject = $this->_subject(['success' => false]);
         $this->_trigger($error, $subject);

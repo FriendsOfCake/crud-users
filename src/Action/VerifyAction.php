@@ -71,7 +71,7 @@ class VerifyAction extends BaseAction
      * HTTP GET handler
      *
      * @param string $token Token
-     * @return \Cake\Http\Response|void
+     * @return \Cake\Http\Response|null|void
      */
     protected function _get($token = null)
     {
@@ -102,11 +102,11 @@ class VerifyAction extends BaseAction
 
         $this->_trigger('beforeSave', $subject);
 
-        $success = call_user_func(
-            [$this->_table(), $this->saveMethod()],
-            $entity,
-            $this->saveOptions()
-        );
+        /** @var callable $callback */
+        $callback = [$this->_table(), $this->saveMethod()];
+
+        /** @var \Cake\Datasource\EntityInterface|false $success */
+        $success = $callback($entity, $this->saveOptions());
 
         $this->_trigger('afterSave', $subject);
 

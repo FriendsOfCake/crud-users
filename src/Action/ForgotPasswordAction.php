@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace CrudUsers\Action;
 
+use Cake\Http\Response;
 use Crud\Action\BaseAction;
 use Crud\Event\Subject;
 use Crud\Traits\FindMethodTrait;
@@ -40,7 +41,7 @@ class ForgotPasswordAction extends BaseAction
      *
      * @return void
      */
-    protected function _get()
+    protected function _get(): void
     {
         $subject = $this->_subject([
             'success' => true,
@@ -56,7 +57,7 @@ class ForgotPasswordAction extends BaseAction
     /**
      * HTTP POST handler
      *
-     * @return void|\Cake\Http\Response
+     * @return \Cake\Http\Response|null|void
      */
     protected function _post()
     {
@@ -102,9 +103,9 @@ class ForgotPasswordAction extends BaseAction
      * Post success callback
      *
      * @param \Crud\Event\Subject $subject Event subject
-     * @return \Cake\Http\Response
+     * @return \Cake\Http\Response|null
      */
-    protected function _success(Subject $subject)
+    protected function _success(Subject $subject): ?Response
     {
         $subject->set(['success' => true]);
 

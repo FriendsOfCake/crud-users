@@ -28,7 +28,7 @@ class LoginAction extends BaseAction
     /**
      * HTTP GET handler
      *
-     * @return \Cake\Http\Response|void
+     * @return \Cake\Http\Response|null|void
      */
     protected function _get()
     {
@@ -48,7 +48,7 @@ class LoginAction extends BaseAction
     /**
      * HTTP POST handler
      *
-     * @return \Cake\Http\Response|void
+     * @return \Cake\Http\Response|null|void
      */
     protected function _post()
     {
