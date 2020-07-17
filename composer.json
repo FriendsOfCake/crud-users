@@ -38,7 +38,5 @@
         "psr-4":{
             "CrudUsers\\Test\\":"tests"
         }
-    },
-    "minimum-stability": "beta",
-    "prefer-stable": true
+    }
 }
