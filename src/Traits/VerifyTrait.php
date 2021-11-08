@@ -96,6 +96,7 @@ trait VerifyTrait
         $this->_trigger($error, $subject);
 
         $message = $this->message($error);
+        /** @var class-string<\Exception> $exceptionClass  */
         $exceptionClass = $message['class'];
         throw new $exceptionClass($message['text'], $message['code']);
     }
