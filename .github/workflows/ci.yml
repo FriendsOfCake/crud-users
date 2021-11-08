@@ -1,0 +1,49 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  coding-standard:
+    name: Coding Standard
+    runs-on: ubuntu-18.04
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.2'
+        extensions: mbstring, intl
+        coverage: none
+
+    - name: Composer Install
+      run: composer require --dev cakephp/cakephp-codesniffer:^4.0
+
+    - name: Run PHP CodeSniffer
+      run: vendor/bin/phpcs --standard=vendor/cakephp/cakephp-codesniffer/CakePHP -p src/ tests/
+
+  static-analysis:
+    name: Static Analysis
+    runs-on: ubuntu-18.04
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.0'
+        extension-csv: mbstring, intl
+        coverage: none,
+        tools: phpstan:1.1
+
+    - name: Composer Install
+      run: composer install
+
+    - name: Run phpstan
+      run: phpstan
