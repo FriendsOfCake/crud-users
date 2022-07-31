@@ -38,5 +38,11 @@
         "psr-4":{
             "CrudUsers\\Test\\":"tests"
         }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     }
 }
