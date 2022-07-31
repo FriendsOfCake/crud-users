@@ -81,6 +81,7 @@ class LoginAction extends BaseAction
             $this->setFlash('success', $subject);
         }
 
+        /** @psalm-suppress UndefinedInterfaceMethod */
         $redirectUrl = $this->_controller()->Authentication->getLoginRedirect()
                 ?? $this->getConfig('redirectUrl');
 
