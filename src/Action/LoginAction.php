@@ -1,38 +1,46 @@
 <?php
+declare(strict_types=1);
 
 namespace CrudUsers\Action;
 
+use Cake\Http\Response;
 use Crud\Action\BaseAction;
 use Crud\Event\Subject;
 use Crud\Traits\RedirectTrait;
 
 class LoginAction extends BaseAction
 {
-
     use RedirectTrait;
 
     protected $_defaultConfig = [
         'enabled' => true,
         'messages' => [
             'success' => [
-                'text' => 'Successfully logged you in'
+                'text' => 'Successfully logged you in',
             ],
             'error' => [
-                'text' => 'Invalid credentials, please try again'
-            ]
+                'text' => 'Invalid credentials, please try again',
+            ],
         ],
+        'redirectUrl' => '/',
     ];
 
     /**
      * HTTP GET handler
      *
-     * @return void
+     * @return \Cake\Http\Response|null|void
      */
     protected function _get()
     {
+        $result = $this->_controller()->Authentication->getResult();
         $subject = $this->_subject([
             'success' => true,
+            'result' => $result,
         ]);
+
+        if ($result && $result->isValid()) {
+            return $this->_success($subject);
+        }
 
         $this->_trigger('beforeRender', $subject);
     }
@@ -40,16 +48,17 @@ class LoginAction extends BaseAction
     /**
      * HTTP POST handler
      *
-     * @return \Cake\Network\Response
+     * @return \Cake\Http\Response|null|void
      */
     protected function _post()
     {
-        $subject = $this->_subject();
+        $result = $this->_controller()->Authentication->getResult();
+        $subject = $this->_subject([
+            'result' => $result,
+        ]);
 
-        $this->_trigger('beforeLogin', $subject);
-
-        if ($user = $this->_controller()->Auth->identify()) {
-            return $this->_success($subject, $user);
+        if ($result && $result->isValid()) {
+            return $this->_success($subject);
         }
 
         $this->_error($subject);
@@ -59,21 +68,24 @@ class LoginAction extends BaseAction
      * Post success callback
      *
      * @param \Crud\Event\Subject $subject Event subject.
-     * @param array $user Authenticated user record data.
-     * @return \Cake\Network\Response
+     * @return \Cake\Http\Response|null
      */
-    protected function _success(Subject $subject, array $user)
+    protected function _success(Subject $subject): ?Response
     {
-        $subject->set(['success' => true, 'user' => $user]);
+        $subject->set([
+            'success' => true,
+            'identity' => $this->_controller()->Authentication->getIdentity(),
+        ]);
 
-        $this->_trigger('afterLogin', $subject);
-        $this->_controller()->Auth->setUser($subject->user);
-        $this->setFlash('success', $subject);
+        if ($this->_request()->is('post')) {
+            $this->setFlash('success', $subject);
+        }
 
-        return $this->_redirect(
-            $subject,
-            $this->_controller()->Auth->redirectUrl()
-        );
+        /** @psalm-suppress UndefinedInterfaceMethod */
+        $redirectUrl = $this->_controller()->Authentication->getLoginRedirect()
+                ?? $this->getConfig('redirectUrl');
+
+        return $this->_redirect($subject, $redirectUrl);
     }
 
     /**
@@ -82,11 +94,10 @@ class LoginAction extends BaseAction
      * @param \Crud\Event\Subject $subject Event subject
      * @return void
      */
-    protected function _error(Subject $subject)
+    protected function _error(Subject $subject): void
     {
         $subject->set(['success' => false]);
 
-        $this->_trigger('afterLogin', $subject);
         $this->setFlash('error', $subject);
         $this->_trigger('beforeRender', $subject);
     }

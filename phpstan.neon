@@ -1,3 +1,27 @@
 parameters:
-    universalObjectCratesClasses:
-        - Crud\Event\Subject
+	level: 8
+	checkMissingIterableValueType: false
+	paths:
+		- src
+	universalObjectCratesClasses:
+		- Crud\Event\Subject
+	ignoreErrors:
+		-
+			message: "#^Access to an undefined property Cake\\\\Controller\\\\Controller\\:\\:\\$Authentication\\.$#"
+			count: 4
+			path: src/Action/LoginAction.php
+
+		-
+			message: "#^Access to an undefined property Cake\\\\Controller\\\\Controller\\:\\:\\$Authentication\\.$#"
+			count: 1
+			path: src/Action/LogoutAction.php
+
+		-
+			message: "#^Parameter \\#1 \\$type of method Cake\\\\ORM\\\\Table\\:\\:find\\(\\) expects string, \\$this\\(CrudUsers\\\\Action\\\\ResetPasswordAction\\)\\|array\\|string given\\.$#"
+			count: 1
+			path: src/Action/ResetPasswordAction.php
+
+		-
+			message: "#^Parameter \\#1 \\$type of method Cake\\\\ORM\\\\Table\\:\\:find\\(\\) expects string, \\$this\\(CrudUsers\\\\Action\\\\VerifyAction\\)\\|array\\|string given\\.$#"
+			count: 1
+			path: src/Action/VerifyAction.php

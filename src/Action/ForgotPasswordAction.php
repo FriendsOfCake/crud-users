@@ -1,7 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace CrudUsers\Action;
 
+use Cake\Http\Response;
 use Crud\Action\BaseAction;
 use Crud\Event\Subject;
 use Crud\Traits\FindMethodTrait;
@@ -11,7 +13,6 @@ use Crud\Traits\ViewVarTrait;
 
 class ForgotPasswordAction extends BaseAction
 {
-
     use FindMethodTrait;
     use RedirectTrait;
     use ViewTrait;
@@ -20,21 +21,19 @@ class ForgotPasswordAction extends BaseAction
     protected $_defaultConfig = [
         'enabled' => true,
         'scope' => 'entity',
-        'findConfig' => [],
         'findMethod' => 'all',
         'tokenField' => 'token',
         'messages' => [
             'success' => [
-                'text' => 'A recovery email has been sent successfully'
+                'text' => 'A recovery email has been sent',
             ],
             'error' => [
-                'text' => 'No search results found'
-            ]
+                'text' => 'No matching user found',
+            ],
         ],
-        'redirectUrl' => null,
         'serialize' => [],
         'view' => null,
-        'viewVar' => null
+        'viewVar' => null,
     ];
 
     /**
@@ -42,11 +41,14 @@ class ForgotPasswordAction extends BaseAction
      *
      * @return void
      */
-    protected function _get()
+    protected function _get(): void
     {
         $subject = $this->_subject([
             'success' => true,
-            'entity' => $this->_entity($this->_request()->query ?: null)
+            'entity' => $this->_entity(
+                $this->_request()->getQueryParams(),
+                ['validate' => false]
+            ),
         ]);
 
         $this->_trigger('beforeRender', $subject);
@@ -55,23 +57,24 @@ class ForgotPasswordAction extends BaseAction
     /**
      * HTTP POST handler
      *
-     * @return void|\Cake\Network\Response
+     * @return \Cake\Http\Response|null|void
      */
     protected function _post()
     {
         $subject = $this->_subject([
-            'findConfig' => $this->_getFindConfig(),
-            'findMethod' => $this->config('findMethod')
+            'findMethod' => $this->_getFindConfig(),
         ]);
 
         $this->_trigger('beforeForgotPassword', $subject);
 
         $entity = $this->_table()
-            ->find($subject->findMethod, $subject->findConfig)
+            ->find($subject->findMethod[0], $subject->findMethod[1])
             ->first();
 
         if (empty($entity)) {
-            return $this->_error($subject);
+            $this->_error($subject);
+
+            return;
         }
 
         $subject->set(['entity' => $entity]);
@@ -84,43 +87,41 @@ class ForgotPasswordAction extends BaseAction
      *
      * @return array
      */
-    protected function _getFindConfig()
+    protected function _getFindConfig(): array
     {
-        $config = (array)$this->config('findConfig') + ['conditions' => []];
-        $config['conditions'] = array_merge($config['conditions'], $this->_request()->data);
+        $finder = $this->_extractFinder();
+        if (isset($finder[1]['conditions'])) {
+            $finder[1]['conditions'] = array_merge($finder[1]['conditions'], $this->_request()->getData());
+        } else {
+            $finder[1]['conditions'] = $this->_request()->getData();
+        }
 
-        return $config;
+        return $finder;
     }
 
     /**
      * Post success callback
      *
      * @param \Crud\Event\Subject $subject Event subject
-     * @return \Cake\Network\Response
+     * @return \Cake\Http\Response|null
      */
-    protected function _success(Subject $subject)
+    protected function _success(Subject $subject): ?Response
     {
         $subject->set(['success' => true]);
 
         $this->_trigger('afterForgotPassword', $subject);
         $this->setFlash('success', $subject);
 
-        if ($this->config('redirectUrl') === null) {
-            $redirectUrl = $this->_controller()->Auth->config('loginAction');
-        } else {
-            $redirectUrl = $this->config('redirectUrl');
-        }
-
-        return $this->_redirect($subject, $redirectUrl);
+        return $this->_redirect($subject, $this->_request()->getPath());
     }
 
     /**
      * Post error callback
      *
      * @param \Crud\Event\Subject $subject Event subject
-     * @return void|\Cake\Network\Response
+     * @return void
      */
-    protected function _error(Subject $subject)
+    protected function _error(Subject $subject): void
     {
         $subject->set(['success' => false, 'entity' => null]);
 

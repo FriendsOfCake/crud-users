@@ -1,5 +1,9 @@
 <?php
+declare(strict_types=1);
+
 namespace CrudUsers\Traits;
+
+use Cake\Datasource\EntityInterface;
 
 trait VerifyTrait
 {
@@ -9,32 +13,36 @@ trait VerifyTrait
      * @param string|null $token Token
      * @return string|null Token if found or null
      */
-    protected function _token($token = null)
+    protected function _token(?string $token = null): ?string
     {
         if ($token) {
             return $token;
         }
 
-        $token = $this->_request()->data('token');
+        /** @var string|null $token */
+        $token = $this->_request()->getData('token');
         if ($token) {
             return $token;
         }
 
-        $token = $this->_request()->param('token');
+        /** @var string|null $token */
+        $token = $this->_request()->getParam('token');
         if ($token) {
             return $token;
         }
 
-        return $this->_request()->query('token');
+        /** @var string|null */
+        return $this->_request()->getQuery('token');
     }
 
     /**
      * Verify token
      *
-     * @param string $token Token.
-     * @return \Cake\Datasource\EntityTrait|null
+     * @param string|null $token Token.
+     * @return \Cake\Datasource\EntityInterface
+     * @throws \Exception
      */
-    protected function _verify($token)
+    protected function _verify(?string $token): EntityInterface
     {
         if (empty($token)) {
             $this->_tokenError();
@@ -48,7 +56,7 @@ trait VerifyTrait
                 $this->findMethod(),
                 [
                     'token' => $token,
-                    'conditions' => [$this->_table()->aliasField($this->config('tokenField')) => $token]
+                    'conditions' => [$this->_table()->aliasField($this->getConfig('tokenField')) => $token],
                 ]
             ),
         ]);
@@ -56,7 +64,7 @@ trait VerifyTrait
         $this->_trigger('beforeFind', $subject);
         $entity = $subject->query->first();
 
-        if (empty($token)) {
+        if (empty($entity)) {
             $this->_tokenError();
         }
 
@@ -68,11 +76,11 @@ trait VerifyTrait
         }
         $this->_trigger('verifyToken', $subject);
 
-        if ($subject->verified) {
-            return $subject->entity;
+        if (!$subject->verified) {
+            $this->_tokenError('tokenExpired');
         }
 
-        $this->_tokenError('tokenExpired');
+        return $subject->entity;
     }
 
     /**
@@ -82,12 +90,13 @@ trait VerifyTrait
      * @return void
      * @throws \Exception
      */
-    protected function _tokenError($error = 'tokenNotFound')
+    protected function _tokenError($error = 'tokenNotFound'): void
     {
         $subject = $this->_subject(['success' => false]);
         $this->_trigger($error, $subject);
 
-        $message = $this->message($error, compact('token'));
+        $message = $this->message($error);
+        /** @var class-string<\Exception> $exceptionClass  */
         $exceptionClass = $message['class'];
         throw new $exceptionClass($message['text'], $message['code']);
     }

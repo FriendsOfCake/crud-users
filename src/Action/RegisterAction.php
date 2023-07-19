@@ -1,8 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace CrudUsers\Action;
 
+use Cake\Http\Response;
 use Crud\Action\BaseAction;
+use Crud\Error\Exception\ValidationException;
 use Crud\Event\Subject;
 use Crud\Traits\RedirectTrait;
 use Crud\Traits\SaveMethodTrait;
@@ -11,7 +14,6 @@ use Crud\Traits\ViewVarTrait;
 
 class RegisterAction extends BaseAction
 {
-
     use RedirectTrait;
     use SaveMethodTrait;
     use ViewTrait;
@@ -27,29 +29,29 @@ class RegisterAction extends BaseAction
         'view' => null,
         'viewVar' => null,
         'entityKey' => 'entity',
-        'redirectUrl' => null,
+        'redirectUrl' => ['controller' => 'Users', 'action' => 'login'],
         'api' => [
             'methods' => ['put', 'post'],
             'success' => [
                 'code' => 201,
                 'data' => [
-                    'entity' => ['id']
-                ]
+                    'entity' => ['id'],
+                ],
             ],
             'error' => [
                 'exception' => [
                     'type' => 'validate',
-                    'class' => '\Crud\Error\Exception\ValidationException'
-                ]
-            ]
+                    'class' => ValidationException::class,
+                ],
+            ],
         ],
         'messages' => [
             'success' => [
-                'text' => 'Account successfully created'
+                'text' => 'Account successfully created',
             ],
             'error' => [
-                'text' => 'Please fix the errors and try again'
-            ]
+                'text' => 'Please fix the errors and try again',
+            ],
         ],
     ];
 
@@ -62,7 +64,10 @@ class RegisterAction extends BaseAction
     {
         $subject = $this->_subject([
             'success' => true,
-            'entity' => $this->_entity($this->_request()->query ?: null, $this->saveOptions())
+            'entity' => $this->_entity(
+                $this->_request()->getQueryParams() ?: [],
+                $this->saveOptions()
+            ),
         ]);
 
         $this->_trigger('beforeRender', $subject);
@@ -71,43 +76,41 @@ class RegisterAction extends BaseAction
     /**
      * HTTP POST handler
      *
-     * @return void|\Cake\Network\Response
+     * @return \Cake\Http\Response|null|void
      */
     protected function _post()
     {
         $subject = $this->_subject([
-            'entity' => $this->_entity($this->_request()->data, $this->saveOptions()),
+            'entity' => $this->_entity($this->_request()->getData(), $this->saveOptions()),
             'saveMethod' => $this->saveMethod(),
-            'saveOptions' => $this->saveOptions()
+            'saveOptions' => $this->saveOptions(),
         ]);
 
         $this->_trigger('beforeRegister', $subject);
 
-        $saveCallback = [$this->_table(), $subject->saveMethod];
-        if ($saveCallback($subject->entity, $subject->saveOptions)) {
+        /** @var callable $callback */
+        $callback = [$this->_table(), $subject->saveMethod];
+        if ($callback($subject->entity, $subject->saveOptions)) {
             return $this->_success($subject);
         }
 
-        return $this->_error($subject);
+        $this->_error($subject);
     }
 
     /**
      * Post success callback
      *
      * @param \Crud\Event\Subject $subject Event subject
-     * @return \Cake\Network\Response
+     * @return \Cake\Http\Response|null
      */
-    protected function _success(Subject $subject)
+    protected function _success(Subject $subject): ?Response
     {
         $subject->set(['success' => true, 'created' => true]);
 
         $this->_trigger('afterRegister', $subject);
         $this->setFlash('success', $subject);
 
-        $redirectUrl = $this->config('redirectUrl');
-        if ($redirectUrl === null && $this->_controller()->components()->has('Auth')) {
-            $redirectUrl = $this->_controller()->Auth->config('loginAction');
-        }
+        $redirectUrl = $this->getConfig('redirectUrl');
 
         return $this->_redirect($subject, $redirectUrl);
     }
@@ -116,9 +119,9 @@ class RegisterAction extends BaseAction
      * Post error callback
      *
      * @param \Crud\Event\Subject $subject Event subject
-     * @return void|\Cake\Network\Response
+     * @return void
      */
-    protected function _error(Subject $subject)
+    protected function _error(Subject $subject): void
     {
         $subject->set(['success' => false, 'created' => false]);
 

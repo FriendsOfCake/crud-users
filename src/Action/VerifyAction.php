@@ -1,20 +1,23 @@
 <?php
+declare(strict_types=1);
 
 namespace CrudUsers\Action;
 
 use Cake\Datasource\EntityInterface;
-use CrudUsers\Traits\VerifyTrait;
+use Cake\Http\Exception\BadRequestException;
+use Cake\Http\Exception\NotFoundException;
+use Cake\Http\Response;
 use Crud\Action\BaseAction;
-use Crud\Event\Subject;
+use Crud\Error\Exception\ValidationException;
 use Crud\Traits\FindMethodTrait;
 use Crud\Traits\RedirectTrait;
 use Crud\Traits\SaveMethodTrait;
 use Crud\Traits\ViewTrait;
 use Crud\Traits\ViewVarTrait;
+use CrudUsers\Traits\VerifyTrait;
 
 class VerifyAction extends BaseAction
 {
-
     use FindMethodTrait;
     use RedirectTrait;
     use SaveMethodTrait;
@@ -34,41 +37,41 @@ class VerifyAction extends BaseAction
         'api' => [
             'methods' => ['put', 'post'],
             'success' => [
-                'code' => 200
+                'code' => 200,
             ],
             'error' => [
                 'exception' => [
                     'type' => 'validate',
-                    'class' => '\Crud\Error\Exception\ValidationException'
-                ]
-            ]
+                    'class' => ValidationException::class,
+                ],
+            ],
         ],
         'messages' => [
             'success' => [
-                'text' => 'Account verified successfully'
+                'text' => 'Account verified successfully',
             ],
             'error' => [
-                'text' => 'Could not verify the account'
+                'text' => 'Could not verify the account',
             ],
             'tokenNotFound' => [
                 'code' => 404,
-                'class' => 'Cake\Network\Exception\NotFoundException',
-                'text' => 'Token not found'
+                'class' => NotFoundException::class,
+                'text' => 'Token not found',
             ],
             'tokenExpired' => [
                 'code' => 400,
-                'class' => 'Cake\Network\Exception\BadRequestException',
-                'text' => 'Token has expired'
+                'class' => BadRequestException::class,
+                'text' => 'Token has expired',
             ],
         ],
-        'redirectUrl' => null,
+        'redirectUrl' => ['controller' => 'Users', 'action' => 'login'],
     ];
 
     /**
      * HTTP GET handler
      *
      * @param string $token Token
-     * @return \Cake\Network\Response
+     * @return \Cake\Http\Response|null|void
      */
     protected function _get($token = null)
     {
@@ -86,7 +89,7 @@ class VerifyAction extends BaseAction
      * Save the updated record
      *
      * @param \Cake\Datasource\EntityInterface $entity Entity
-     * @return bool
+     * @return \Cake\Datasource\EntityInterface|false
      */
     protected function _save(EntityInterface $entity)
     {
@@ -99,11 +102,11 @@ class VerifyAction extends BaseAction
 
         $this->_trigger('beforeSave', $subject);
 
-        $success = call_user_func(
-            [$this->_table(), $this->saveMethod()],
-            $entity,
-            $this->saveOptions()
-        );
+        /** @var callable $callback */
+        $callback = [$this->_table(), $this->saveMethod()];
+
+        /** @var \Cake\Datasource\EntityInterface|false $success */
+        $success = $callback($entity, $this->saveOptions());
 
         $this->_trigger('afterSave', $subject);
 
@@ -113,20 +116,16 @@ class VerifyAction extends BaseAction
     /**
      * Post success callback
      *
-     * @return \Cake\Network\Response
+     * @return \Cake\Http\Response|null
      */
-    protected function _success()
+    protected function _success(): ?Response
     {
         $subject = $this->_subject(['success' => true]);
 
         $this->_trigger('afterVerify', $subject);
         $this->setFlash('success', $subject);
 
-        $redirectUrl = $this->config('redirectUrl');
-
-        if (!$redirectUrl && $this->_controller()->components()->has('Auth')) {
-            $redirectUrl = $this->_controller()->Auth->config('loginAction');
-        }
+        $redirectUrl = $this->getConfig('redirectUrl');
 
         return $this->_redirect($subject, $redirectUrl);
     }
@@ -136,7 +135,7 @@ class VerifyAction extends BaseAction
      *
      * @return void
      */
-    protected function _error()
+    protected function _error(): void
     {
         $subject = $this->_subject(['success' => false]);
 

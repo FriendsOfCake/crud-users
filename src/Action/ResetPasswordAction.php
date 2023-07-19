@@ -1,19 +1,23 @@
 <?php
+declare(strict_types=1);
 
 namespace CrudUsers\Action;
 
-use CrudUsers\Traits\VerifyTrait;
+use Cake\Http\Exception\BadRequestException;
+use Cake\Http\Exception\NotFoundException;
+use Cake\Http\Response;
 use Crud\Action\BaseAction;
+use Crud\Error\Exception\ValidationException;
 use Crud\Event\Subject;
 use Crud\Traits\FindMethodTrait;
 use Crud\Traits\RedirectTrait;
 use Crud\Traits\SaveMethodTrait;
 use Crud\Traits\ViewTrait;
 use Crud\Traits\ViewVarTrait;
+use CrudUsers\Traits\VerifyTrait;
 
 class ResetPasswordAction extends BaseAction
 {
-
     use FindMethodTrait;
     use RedirectTrait;
     use SaveMethodTrait;
@@ -32,34 +36,35 @@ class ResetPasswordAction extends BaseAction
         'api' => [
             'methods' => ['put', 'post'],
             'success' => [
-                'code' => 200
+                'code' => 200,
             ],
             'error' => [
                 'exception' => [
                     'type' => 'validate',
-                    'class' => '\Crud\Error\Exception\ValidationException'
-                ]
-            ]
+                    'class' => ValidationException::class,
+                ],
+            ],
         ],
         'messages' => [
             'success' => [
-                'text' => 'Account updated successfully'
+                'text' => 'Account updated successfully',
             ],
             'error' => [
-                'text' => 'Could not update the account'
+                'text' => 'Could not update the account',
             ],
             'tokenNotFound' => [
                 'code' => 404,
-                'class' => 'Cake\Network\Exception\NotFoundException',
-                'text' => 'Token not found'
+                'class' => NotFoundException::class,
+                'text' => 'Token not found',
             ],
             'tokenExpired' => [
                 'code' => 400,
-                'class' => 'Cake\Network\Exception\BadRequestException',
-                'text' => 'Token has expired'
+                'class' => BadRequestException::class,
+                'text' => 'Token has expired',
             ],
         ],
-        'redirectUrl' => null,
+        'redirectUrl' => ['controller' => 'Users', 'action' => 'login'],
+        'tokenField' => 'token',
     ];
 
     /**
@@ -68,14 +73,14 @@ class ResetPasswordAction extends BaseAction
      * @param string $token Token
      * @return void
      */
-    protected function _get($token = null)
+    protected function _get(?string $token = null): void
     {
         $token = $this->_token($token);
 
         $subject = $this->_subject([
             'success' => true,
-            'entity' => $this->_table()->newEntity(),
-            'token' => $token
+            'entity' => $this->_table()->newEmptyEntity(),
+            'token' => $token,
         ]);
 
         $this->_trigger('beforeRender', $subject);
@@ -87,7 +92,7 @@ class ResetPasswordAction extends BaseAction
      * Thin proxy for _put
      *
      * @param string|null $token Token
-     * @return void|\Cake\Network\Response
+     * @return \Cake\Http\Response|null|void
      */
     protected function _post($token = null)
     {
@@ -98,7 +103,7 @@ class ResetPasswordAction extends BaseAction
      * HTTP PUT handler
      *
      * @param string|null $token Token
-     * @return void|\Cake\Network\Response
+     * @return \Cake\Http\Response|null|void
      */
     protected function _put($token = null)
     {
@@ -109,31 +114,31 @@ class ResetPasswordAction extends BaseAction
             return $this->_success($subject);
         }
 
-        return $this->_error($subject);
+        $this->_error($subject);
     }
 
     /**
      * Save the updated record
      *
      * @param \Crud\Event\Subject $subject Event subject
-     * @return bool
+     * @return \Cake\Datasource\EntityInterface|false
      */
     protected function _save(Subject $subject)
     {
         $entity = $this->_table()->patchEntity(
             $subject->entity,
-            $this->_request()->data,
+            $this->_request()->getData(),
             $this->saveOptions()
         );
         $subject->set(['entity' => $entity]);
 
         $this->_trigger('beforeSave', $subject);
 
-        $success = call_user_func(
-            [$this->_table(), $this->saveMethod()],
-            $entity,
-            $this->saveOptions()
-        );
+        /** @var callable $callable */
+        $callable = [$this->_table(), $this->saveMethod()];
+
+        /** @var \Cake\Datasource\EntityInterface|false $success */
+        $success = $callable($entity, $this->saveOptions());
 
         $this->_trigger('afterSave', $subject);
 
@@ -144,20 +149,16 @@ class ResetPasswordAction extends BaseAction
      * Post success callback
      *
      * @param \Crud\Event\Subject $subject Event subject
-     * @return \Cake\Network\Response
+     * @return \Cake\Http\Response
      */
-    protected function _success(Subject $subject)
+    protected function _success(Subject $subject): ?Response
     {
         $subject->set(['success' => true]);
 
         $this->_trigger('afterResetPassword', $subject);
         $this->setFlash('success', $subject);
 
-        if ($this->config('redirectUrl') === null) {
-            $redirectUrl = $this->_controller()->Auth->config('loginAction');
-        } else {
-            $redirectUrl = $this->config('redirectUrl');
-        }
+        $redirectUrl = $this->getConfig('redirectUrl');
 
         return $this->_redirect($subject, $redirectUrl);
     }
@@ -166,9 +167,9 @@ class ResetPasswordAction extends BaseAction
      * Post error callback
      *
      * @param \Crud\Event\Subject $subject Event subject
-     * @return void|\Cake\Network\Response
+     * @return void
      */
-    protected function _error(Subject $subject)
+    protected function _error(Subject $subject): void
     {
         $subject->set(['success' => false]);
 

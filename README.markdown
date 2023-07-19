@@ -7,8 +7,6 @@
 
 # Installation
 
-For CakePHP 3.x:
-
 ```shell
 composer require friendsofcake/crud-users
 ```
