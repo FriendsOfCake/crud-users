@@ -12,7 +12,7 @@ class LoginAction extends BaseAction
 {
     use RedirectTrait;
 
-    protected $_defaultConfig = [
+    protected array $_defaultConfig = [
         'enabled' => true,
         'messages' => [
             'success' => [
@@ -28,9 +28,9 @@ class LoginAction extends BaseAction
     /**
      * HTTP GET handler
      *
-     * @return \Cake\Http\Response|null|void
+     * @return \Cake\Http\Response|null
      */
-    protected function _get()
+    protected function _get(): ?Response
     {
         $result = $this->_controller()->Authentication->getResult();
         $subject = $this->_subject([
@@ -43,14 +43,16 @@ class LoginAction extends BaseAction
         }
 
         $this->_trigger('beforeRender', $subject);
+
+        return null;
     }
 
     /**
      * HTTP POST handler
      *
-     * @return \Cake\Http\Response|null|void
+     * @return \Cake\Http\Response|null
      */
-    protected function _post()
+    protected function _post(): ?Response
     {
         $result = $this->_controller()->Authentication->getResult();
         $subject = $this->_subject([
@@ -62,6 +64,8 @@ class LoginAction extends BaseAction
         }
 
         $this->_error($subject);
+
+        return null;
     }
 
     /**

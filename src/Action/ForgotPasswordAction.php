@@ -11,6 +11,9 @@ use Crud\Traits\RedirectTrait;
 use Crud\Traits\ViewTrait;
 use Crud\Traits\ViewVarTrait;
 
+/**
+ * @method \Cake\ORM\Table _model()
+ */
 class ForgotPasswordAction extends BaseAction
 {
     use FindMethodTrait;
@@ -18,7 +21,7 @@ class ForgotPasswordAction extends BaseAction
     use ViewTrait;
     use ViewVarTrait;
 
-    protected $_defaultConfig = [
+    protected array $_defaultConfig = [
         'enabled' => true,
         'scope' => 'entity',
         'findMethod' => 'all',
@@ -57,9 +60,9 @@ class ForgotPasswordAction extends BaseAction
     /**
      * HTTP POST handler
      *
-     * @return \Cake\Http\Response|null|void
+     * @return \Cake\Http\Response|null
      */
-    protected function _post()
+    protected function _post(): ?Response
     {
         $subject = $this->_subject([
             'findMethod' => $this->_getFindConfig(),
@@ -67,14 +70,14 @@ class ForgotPasswordAction extends BaseAction
 
         $this->_trigger('beforeForgotPassword', $subject);
 
-        $entity = $this->_table()
+        $entity = $this->_model()
             ->find($subject->findMethod[0], $subject->findMethod[1])
             ->first();
 
         if (empty($entity)) {
             $this->_error($subject);
 
-            return;
+            return null;
         }
 
         $subject->set(['entity' => $entity]);

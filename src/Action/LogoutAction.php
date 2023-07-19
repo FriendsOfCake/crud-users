@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace CrudUsers\Action;
 
+use Cake\Http\Response;
 use Crud\Action\BaseAction;
 use Crud\Traits\RedirectTrait;
 
@@ -10,7 +11,7 @@ class LogoutAction extends BaseAction
 {
     use RedirectTrait;
 
-    protected $_defaultConfig = [
+    protected array $_defaultConfig = [
         'enabled' => true,
         'messages' => [
             'success' => [
@@ -25,7 +26,7 @@ class LogoutAction extends BaseAction
      *
      * @return \Cake\Http\Response|null
      */
-    protected function _get()
+    protected function _get(): ?Response
     {
         $subject = $this->_subject();
         $this->_trigger('beforeLogout', $subject);
