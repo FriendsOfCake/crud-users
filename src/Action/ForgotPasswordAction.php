@@ -11,9 +11,6 @@ use Crud\Traits\RedirectTrait;
 use Crud\Traits\ViewTrait;
 use Crud\Traits\ViewVarTrait;
 
-/**
- * @method \Cake\ORM\Table _model()
- */
 class ForgotPasswordAction extends BaseAction
 {
     use FindMethodTrait;

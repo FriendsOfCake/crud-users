@@ -31,6 +31,7 @@ class LogoutAction extends BaseAction
         $subject = $this->_subject();
         $this->_trigger('beforeLogout', $subject);
 
+        /** @psalm-suppress UndefinedMagicPropertyFetch */
         $redirectUrl = $this->_controller()->Authentication->logout();
         $redirectUrl = $this->getConfig('redirectUrl', $redirectUrl);
         if ($redirectUrl === false) {

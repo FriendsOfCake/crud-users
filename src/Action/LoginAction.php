@@ -32,6 +32,7 @@ class LoginAction extends BaseAction
      */
     protected function _get(): ?Response
     {
+        /** @psalm-suppress UndefinedMagicPropertyFetch */
         $result = $this->_controller()->Authentication->getResult();
         $subject = $this->_subject([
             'success' => true,
@@ -54,6 +55,7 @@ class LoginAction extends BaseAction
      */
     protected function _post(): ?Response
     {
+        /** @psalm-suppress UndefinedMagicPropertyFetch */
         $result = $this->_controller()->Authentication->getResult();
         $subject = $this->_subject([
             'result' => $result,
@@ -76,6 +78,7 @@ class LoginAction extends BaseAction
      */
     protected function _success(Subject $subject): ?Response
     {
+        /** @psalm-suppress UndefinedMagicPropertyFetch */
         $subject->set([
             'success' => true,
             'identity' => $this->_controller()->Authentication->getIdentity(),
