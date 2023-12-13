@@ -34,7 +34,7 @@ Add Conditions
   public function delete($id)
   {
       $this->Crud->on('beforeFind', function(\Cake\Event\EventInterface $event) {
-          $event->subject()->query->where(['author' => $this->Authentication->getIdentityData('id')]);
+          $event->getSubject()->query->where(['author' => $this->Authentication->getIdentityData('id')]);
       });
 
       return $this->Crud->execute();

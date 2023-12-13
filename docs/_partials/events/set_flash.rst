@@ -48,8 +48,8 @@ If you'd like to configure it on the fly you can use the eventManager to change 
 .. code-block:: phpinline
 
   $this->eventManager()->on('Crud.setFlash', function (\Cake\Event\EventInterface $event) {
-      if ($event->subject()->success) {
-          $event->subject()->params['class'] = 'alert alert-success alert-dismissible';
+      if ($event->getSubject()->success) {
+          $event->getSubject()->params['class'] = 'alert alert-success alert-dismissible';
       }
   });
 

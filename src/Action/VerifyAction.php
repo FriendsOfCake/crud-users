@@ -25,7 +25,7 @@ class VerifyAction extends BaseAction
     use ViewTrait;
     use ViewVarTrait;
 
-    protected $_defaultConfig = [
+    protected array $_defaultConfig = [
         'enabled' => true,
         'scope' => 'entity',
         'findMethod' => 'all',
@@ -70,10 +70,10 @@ class VerifyAction extends BaseAction
     /**
      * HTTP GET handler
      *
-     * @param string $token Token
-     * @return \Cake\Http\Response|null|void
+     * @param string|null $token Token
+     * @return \Cake\Http\Response|null
      */
-    protected function _get($token = null)
+    protected function _get(?string $token = null): ?Response
     {
         $token = $this->_token($token);
         $entity = $this->_verify($token);
@@ -83,6 +83,8 @@ class VerifyAction extends BaseAction
         }
 
         $this->_error();
+
+        return null;
     }
 
     /**
@@ -91,9 +93,9 @@ class VerifyAction extends BaseAction
      * @param \Cake\Datasource\EntityInterface $entity Entity
      * @return \Cake\Datasource\EntityInterface|false
      */
-    protected function _save(EntityInterface $entity)
+    protected function _save(EntityInterface $entity): EntityInterface|false
     {
-        $entity = $this->_table()->patchEntity(
+        $entity = $this->_model()->patchEntity(
             $entity,
             ['verified' => true],
             $this->saveOptions()
@@ -103,7 +105,7 @@ class VerifyAction extends BaseAction
         $this->_trigger('beforeSave', $subject);
 
         /** @var callable $callback */
-        $callback = [$this->_table(), $this->saveMethod()];
+        $callback = [$this->_model(), $this->saveMethod()];
 
         /** @var \Cake\Datasource\EntityInterface|false $success */
         $success = $callback($entity, $this->saveOptions());

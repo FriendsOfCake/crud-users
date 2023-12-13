@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace CrudUsers\Action;
 
+use Cake\Datasource\EntityInterface;
 use Cake\Http\Exception\BadRequestException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\Http\Response;
@@ -25,7 +26,7 @@ class ResetPasswordAction extends BaseAction
     use ViewTrait;
     use ViewVarTrait;
 
-    protected $_defaultConfig = [
+    protected array $_defaultConfig = [
         'enabled' => true,
         'scope' => 'entity',
         'findMethod' => 'all',
@@ -79,7 +80,7 @@ class ResetPasswordAction extends BaseAction
 
         $subject = $this->_subject([
             'success' => true,
-            'entity' => $this->_table()->newEmptyEntity(),
+            'entity' => $this->_model()->newEmptyEntity(),
             'token' => $token,
         ]);
 
@@ -92,9 +93,9 @@ class ResetPasswordAction extends BaseAction
      * Thin proxy for _put
      *
      * @param string|null $token Token
-     * @return \Cake\Http\Response|null|void
+     * @return \Cake\Http\Response|null
      */
-    protected function _post($token = null)
+    protected function _post(?string $token = null): ?Response
     {
         return $this->_put($token);
     }
@@ -103,9 +104,9 @@ class ResetPasswordAction extends BaseAction
      * HTTP PUT handler
      *
      * @param string|null $token Token
-     * @return \Cake\Http\Response|null|void
+     * @return \Cake\Http\Response|null
      */
-    protected function _put($token = null)
+    protected function _put(?string $token = null): ?Response
     {
         $entity = $this->_verify($this->_token($token));
 
@@ -115,6 +116,8 @@ class ResetPasswordAction extends BaseAction
         }
 
         $this->_error($subject);
+
+        return null;
     }
 
     /**
@@ -123,9 +126,9 @@ class ResetPasswordAction extends BaseAction
      * @param \Crud\Event\Subject $subject Event subject
      * @return \Cake\Datasource\EntityInterface|false
      */
-    protected function _save(Subject $subject)
+    protected function _save(Subject $subject): EntityInterface|false
     {
-        $entity = $this->_table()->patchEntity(
+        $entity = $this->_model()->patchEntity(
             $subject->entity,
             $this->_request()->getData(),
             $this->saveOptions()
@@ -135,7 +138,7 @@ class ResetPasswordAction extends BaseAction
         $this->_trigger('beforeSave', $subject);
 
         /** @var callable $callable */
-        $callable = [$this->_table(), $this->saveMethod()];
+        $callable = [$this->_model(), $this->saveMethod()];
 
         /** @var \Cake\Datasource\EntityInterface|false $success */
         $success = $callable($entity, $this->saveOptions());
