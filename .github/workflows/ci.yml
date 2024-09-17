@@ -1,33 +1,17 @@
 name: CI
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - '*'
+
+permissions:
+  contents: read
 
 jobs:
   cs-stan:
-    name: Coding Standard & Static Analysis
-    runs-on: ubuntu-22.04
-
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '8.1'
-        extensions: mbstring, intl
-        coverage: none
-        tools: phpstan:1.10, vimeo/psalm:5
-
-    - name: Composer Install
-      run: composer require --dev cakephp/cakephp-codesniffer:^5.0
-
-    - name: Run PHP CodeSniffer
-      run: vendor/bin/phpcs --standard=vendor/cakephp/cakephp-codesniffer/CakePHP -p src/ tests/
-
-    - name: Run psalm
-      if: always()
-      run: psalm --output-format=github
-
-    - name: Run phpstan
-      if: always()
-      run: phpstan
+    uses: ADmad/.github/.github/workflows/cs-stan.yml@master
+    secrets: inherit
