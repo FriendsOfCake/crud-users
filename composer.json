@@ -22,12 +22,12 @@
         }
     ],
     "require":{
-        "cakephp/cakephp":"^4.0",
-        "friendsofcake/crud":"^6.0"
+        "cakephp/cakephp":"^5.0",
+        "friendsofcake/crud":"^7.0"
     },
     "require-dev":{
-        "phpunit/phpunit":"^8.5 || ^9.3",
-        "friendsofcake/cakephp-test-utilities":"^2.0"
+        "phpunit/phpunit":"^10.1 || ^11.0",
+        "friendsofcake/cakephp-test-utilities":"^3.0"
     },
     "autoload":{
         "psr-4":{

@@ -1,11 +1,12 @@
 parameters:
 	level: 8
-	checkMissingIterableValueType: false
 	paths:
 		- src
 	universalObjectCratesClasses:
 		- Crud\Event\Subject
 	ignoreErrors:
+		-
+			identifier: missingType.iterableValue
 		-
 			message: "#^Access to an undefined property Cake\\\\Controller\\\\Controller\\:\\:\\$Authentication\\.$#"
 			count: 4
