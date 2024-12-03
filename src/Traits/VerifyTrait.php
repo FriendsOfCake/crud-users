@@ -5,6 +5,9 @@ namespace CrudUsers\Traits;
 
 use Cake\Datasource\EntityInterface;
 
+/**
+ * @method \Cake\ORM\Table _model()
+ */
 trait VerifyTrait
 {
     /**
@@ -51,13 +54,11 @@ trait VerifyTrait
         $subject = $this->_subject();
         $subject->set([
             'token' => $token,
-            'repository' => $this->_table(),
-            'query' => $this->_table()->find(
+            'repository' => $this->_model(),
+            'query' => $this->_model()->find(
                 $this->findMethod(),
-                [
-                    'token' => $token,
-                    'conditions' => [$this->_table()->aliasField($this->getConfig('tokenField')) => $token],
-                ]
+                token: $token,
+                conditions: [$this->_model()->aliasField($this->getConfig('tokenField')) => $token],
             ),
         ]);
 
@@ -90,7 +91,7 @@ trait VerifyTrait
      * @return void
      * @throws \Exception
      */
-    protected function _tokenError($error = 'tokenNotFound'): void
+    protected function _tokenError(string $error = 'tokenNotFound'): void
     {
         $subject = $this->_subject(['success' => false]);
         $this->_trigger($error, $subject);

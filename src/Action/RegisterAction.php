@@ -19,7 +19,7 @@ class RegisterAction extends BaseAction
     use ViewTrait;
     use ViewVarTrait;
 
-    protected $_defaultConfig = [
+    protected array $_defaultConfig = [
         'enabled' => true,
         'scope' => 'entity',
         'inflection' => 'singular',
@@ -60,7 +60,7 @@ class RegisterAction extends BaseAction
      *
      * @return void
      */
-    protected function _get()
+    protected function _get(): void
     {
         $subject = $this->_subject([
             'success' => true,
@@ -76,9 +76,9 @@ class RegisterAction extends BaseAction
     /**
      * HTTP POST handler
      *
-     * @return \Cake\Http\Response|null|void
+     * @return \Cake\Http\Response|null
      */
-    protected function _post()
+    protected function _post(): ?Response
     {
         $subject = $this->_subject([
             'entity' => $this->_entity($this->_request()->getData(), $this->saveOptions()),
@@ -89,12 +89,14 @@ class RegisterAction extends BaseAction
         $this->_trigger('beforeRegister', $subject);
 
         /** @var callable $callback */
-        $callback = [$this->_table(), $subject->saveMethod];
+        $callback = [$this->_model(), $subject->saveMethod];
         if ($callback($subject->entity, $subject->saveOptions)) {
             return $this->_success($subject);
         }
 
         $this->_error($subject);
+
+        return null;
     }
 
     /**
