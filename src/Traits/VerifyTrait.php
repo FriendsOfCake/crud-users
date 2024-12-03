@@ -57,10 +57,8 @@ trait VerifyTrait
             'repository' => $this->_model(),
             'query' => $this->_model()->find(
                 $this->findMethod(),
-                [
-                    'token' => $token,
-                    'conditions' => [$this->_model()->aliasField($this->getConfig('tokenField')) => $token],
-                ]
+                token: $token,
+                conditions: [$this->_model()->aliasField($this->getConfig('tokenField')) => $token],
             ),
         ]);
 

@@ -68,7 +68,7 @@ class ForgotPasswordAction extends BaseAction
         $this->_trigger('beforeForgotPassword', $subject);
 
         $entity = $this->_model()
-            ->find($subject->findMethod[0], $subject->findMethod[1])
+            ->find($subject->findMethod[0], ...$subject->findMethod[1])
             ->first();
 
         if (empty($entity)) {
