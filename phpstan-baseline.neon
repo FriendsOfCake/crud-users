@@ -1,0 +1,31 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Access to an undefined property Cake\\Controller\\Controller\:\:\$Authentication\.$#'
+			identifier: property.notFound
+			count: 4
+			path: src/Action/LoginAction.php
+
+		-
+			message: '#^Access to an undefined property Cake\\Controller\\Controller\:\:\$Authentication\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Action/LogoutAction.php
+
+		-
+			message: '#^Parameter \#1 \$type of method Cake\\ORM\\Table\<array\>\:\:find\(\) expects string, \$this\(CrudUsers\\Action\\ResetPasswordAction\)\|array\|string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Action/ResetPasswordAction.php
+
+		-
+			message: '#^Unable to resolve the template type TEntity in call to method Cake\\ORM\\Table\<array\>\:\:patchEntity\(\)$#'
+			identifier: argument.templateType
+			count: 1
+			path: src/Action/ResetPasswordAction.php
+
+		-
+			message: '#^Parameter \#1 \$type of method Cake\\ORM\\Table\<array\>\:\:find\(\) expects string, \$this\(CrudUsers\\Action\\VerifyAction\)\|array\|string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Action/VerifyAction.php
