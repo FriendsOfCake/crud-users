@@ -131,7 +131,7 @@ class ResetPasswordAction extends BaseAction
         $entity = $this->_model()->patchEntity(
             $subject->entity,
             $this->_request()->getData(),
-            $this->saveOptions()
+            $this->saveOptions(),
         );
         $subject->set(['entity' => $entity]);
 

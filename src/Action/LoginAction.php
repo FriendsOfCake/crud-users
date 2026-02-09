@@ -32,7 +32,7 @@ class LoginAction extends BaseAction
      */
     protected function _get(): ?Response
     {
-        /** @psalm-suppress UndefinedMagicPropertyFetch */
+        /** @psalm-suppress UndefinedMagicPropertyFetch,UndefinedMagicMethod */
         $result = $this->_controller()->Authentication->getResult();
         $subject = $this->_subject([
             'success' => true,
@@ -88,7 +88,7 @@ class LoginAction extends BaseAction
             $this->setFlash('success', $subject);
         }
 
-        /** @psalm-suppress UndefinedInterfaceMethod */
+        /** @psalm-suppress UndefinedMagicMethod,UndefinedMethod */
         $redirectUrl = $this->_controller()->Authentication->getLoginRedirect()
                 ?? $this->getConfig('redirectUrl');
 

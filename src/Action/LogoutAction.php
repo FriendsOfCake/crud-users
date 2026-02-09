@@ -48,7 +48,7 @@ class LogoutAction extends BaseAction
 
         return $this->_redirect(
             $subject,
-            $subject->redirectUrl
+            $subject->redirectUrl,
         );
     }
 }
