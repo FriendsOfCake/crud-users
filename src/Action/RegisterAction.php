@@ -66,7 +66,7 @@ class RegisterAction extends BaseAction
             'success' => true,
             'entity' => $this->_entity(
                 $this->_request()->getQueryParams() ?: [],
-                $this->saveOptions()
+                $this->saveOptions(),
             ),
         ]);
 

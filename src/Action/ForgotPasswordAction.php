@@ -47,7 +47,7 @@ class ForgotPasswordAction extends BaseAction
             'success' => true,
             'entity' => $this->_entity(
                 $this->_request()->getQueryParams(),
-                ['validate' => false]
+                ['validate' => false],
             ),
         ]);
 

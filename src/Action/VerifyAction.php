@@ -98,7 +98,7 @@ class VerifyAction extends BaseAction
         $entity = $this->_model()->patchEntity(
             $entity,
             ['verified' => true],
-            $this->saveOptions()
+            $this->saveOptions(),
         );
         $subject = $this->_subject(['entity' => $entity]);
 
