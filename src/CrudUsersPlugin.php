@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Marketing;
+namespace CrudUsers;
 
 use Cake\Core\BasePlugin;
 
