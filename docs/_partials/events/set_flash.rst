@@ -1,18 +1,18 @@
 Crud.setFlash
 ^^^^^^^^^^^^^
 
-Simple and event driven wrapper for ``SessionComponent::setFlash``.
+Simple and event driven wrapper for ``FlashComponent::set()``.
 
 The `Crud Subject` contains the following keys:
 
-- **text**    The 1st argument to ``SessionComponent::setFlash``.
-- **element** The 2nd argument to ``SessionComponent::setFlash``.
-- **params**  The 3rd argument to ``SessionComponent::setFlash``.
-- **key**     The 4th argument to ``SessionComponent::setFlash``.
+- **text**    The ``$message`` argument to ``FlashComponent::set()``.
+- **element** The ``element`` key in the options passed to ``FlashComponent::set()``.
+- **params**  The ``params`` key in the options passed to ``FlashComponent::set()``.
+- **key**     The ``key`` key in the options passed to ``FlashComponent::set()``.
 - **entity**  (Optional) The ``Entity`` from the previously emitted event.
 
-All keys can be modified as you see fit, at the end of the event cycle they will be passed
-directly to ``SessionComponent::setFlash``.
+All keys can be modified as you see fit, at the end of the event cycle the ``text`` key will be
+passed as the message and the remaining ones as options directly to ``FlashComponent::set()``.
 
 Defaults are stored in the ``messages`` configuration array for each action.
 
@@ -47,7 +47,7 @@ If you'd like to configure it on the fly you can use the eventManager to change 
 
 .. code-block:: phpinline
 
-  $this->eventManager()->on('Crud.setFlash', function (\Cake\Event\EventInterface $event) {
+  $this->getEventManager()->on('Crud.setFlash', function (\Cake\Event\EventInterface $event) {
       if ($event->getSubject()->success) {
           $event->getSubject()->params['class'] = 'alert alert-success alert-dismissible';
       }

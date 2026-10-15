@@ -26,7 +26,7 @@ class ResetPasswordAction extends BaseAction
     use ViewTrait;
     use ViewVarTrait;
 
-    protected array $_defaultConfig = [
+    protected array $defaultConfig = [
         'enabled' => true,
         'scope' => 'entity',
         'findMethod' => 'all',
@@ -74,30 +74,30 @@ class ResetPasswordAction extends BaseAction
      * @param string $token Token
      * @return void
      */
-    protected function _get(?string $token = null): void
+    protected function handleGet(?string $token = null): void
     {
-        $token = $this->_token($token);
+        $token = $this->token($token);
 
-        $subject = $this->_subject([
+        $subject = $this->subject([
             'success' => true,
-            'entity' => $this->_model()->newEmptyEntity(),
+            'entity' => $this->model()->newEmptyEntity(),
             'token' => $token,
         ]);
 
-        $this->_trigger('beforeRender', $subject);
+        $this->trigger('beforeRender', $subject);
     }
 
     /**
      * HTTP POST handler
      *
-     * Thin proxy for _put
+     * Thin proxy for handlePut()
      *
      * @param string|null $token Token
      * @return \Cake\Http\Response|null
      */
-    protected function _post(?string $token = null): ?Response
+    protected function handlePost(?string $token = null): ?Response
     {
-        return $this->_put($token);
+        return $this->handlePut($token);
     }
 
     /**
@@ -106,16 +106,16 @@ class ResetPasswordAction extends BaseAction
      * @param string|null $token Token
      * @return \Cake\Http\Response|null
      */
-    protected function _put(?string $token = null): ?Response
+    protected function handlePut(?string $token = null): ?Response
     {
-        $entity = $this->_verify($this->_token($token));
+        $entity = $this->verify($this->token($token));
 
-        $subject = $this->_subject(compact('entity'));
-        if ($this->_save($subject)) {
-            return $this->_success($subject);
+        $subject = $this->subject(compact('entity'));
+        if ($this->save($subject)) {
+            return $this->success($subject);
         }
 
-        $this->_error($subject);
+        $this->error($subject);
 
         return null;
     }
@@ -126,24 +126,24 @@ class ResetPasswordAction extends BaseAction
      * @param \Crud\Event\Subject $subject Event subject
      * @return \Cake\Datasource\EntityInterface|false
      */
-    protected function _save(Subject $subject): EntityInterface|false
+    protected function save(Subject $subject): EntityInterface|false
     {
-        $entity = $this->_model()->patchEntity(
+        $entity = $this->model()->patchEntity(
             $subject->entity,
-            $this->_request()->getData(),
+            $this->request()->getData(),
             $this->saveOptions(),
         );
         $subject->set(['entity' => $entity]);
 
-        $this->_trigger('beforeSave', $subject);
+        $this->trigger('beforeSave', $subject);
 
         /** @var callable $callable */
-        $callable = [$this->_model(), $this->saveMethod()];
+        $callable = [$this->model(), $this->saveMethod()];
 
         /** @var \Cake\Datasource\EntityInterface|false $success */
         $success = $callable($entity, $this->saveOptions());
 
-        $this->_trigger('afterSave', $subject);
+        $this->trigger('afterSave', $subject);
 
         return $success;
     }
@@ -154,16 +154,16 @@ class ResetPasswordAction extends BaseAction
      * @param \Crud\Event\Subject $subject Event subject
      * @return \Cake\Http\Response
      */
-    protected function _success(Subject $subject): ?Response
+    protected function success(Subject $subject): ?Response
     {
         $subject->set(['success' => true]);
 
-        $this->_trigger('afterResetPassword', $subject);
+        $this->trigger('afterResetPassword', $subject);
         $this->setFlash('success', $subject);
 
         $redirectUrl = $this->getConfig('redirectUrl');
 
-        return $this->_redirect($subject, $redirectUrl);
+        return $this->redirect($subject, $redirectUrl);
     }
 
     /**
@@ -172,12 +172,12 @@ class ResetPasswordAction extends BaseAction
      * @param \Crud\Event\Subject $subject Event subject
      * @return void
      */
-    protected function _error(Subject $subject): void
+    protected function error(Subject $subject): void
     {
         $subject->set(['success' => false]);
 
-        $this->_trigger('afterResetPassword', $subject);
+        $this->trigger('afterResetPassword', $subject);
         $this->setFlash('error', $subject);
-        $this->_trigger('beforeRender', $subject);
+        $this->trigger('beforeRender', $subject);
     }
 }
