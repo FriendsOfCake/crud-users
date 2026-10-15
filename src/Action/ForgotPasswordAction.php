@@ -18,7 +18,7 @@ class ForgotPasswordAction extends BaseAction
     use ViewTrait;
     use ViewVarTrait;
 
-    protected array $_defaultConfig = [
+    protected array $defaultConfig = [
         'enabled' => true,
         'scope' => 'entity',
         'findMethod' => 'all',
@@ -41,17 +41,17 @@ class ForgotPasswordAction extends BaseAction
      *
      * @return void
      */
-    protected function _get(): void
+    protected function handleGet(): void
     {
-        $subject = $this->_subject([
+        $subject = $this->subject([
             'success' => true,
-            'entity' => $this->_entity(
-                $this->_request()->getQueryParams(),
+            'entity' => $this->entity(
+                $this->request()->getQueryParams(),
                 ['validate' => false],
             ),
         ]);
 
-        $this->_trigger('beforeRender', $subject);
+        $this->trigger('beforeRender', $subject);
     }
 
     /**
@@ -59,27 +59,27 @@ class ForgotPasswordAction extends BaseAction
      *
      * @return \Cake\Http\Response|null
      */
-    protected function _post(): ?Response
+    protected function handlePost(): ?Response
     {
-        $subject = $this->_subject([
-            'findMethod' => $this->_getFindConfig(),
+        $subject = $this->subject([
+            'findMethod' => $this->getFindConfig(),
         ]);
 
-        $this->_trigger('beforeForgotPassword', $subject);
+        $this->trigger('beforeForgotPassword', $subject);
 
-        $entity = $this->_model()
+        $entity = $this->model()
             ->find($subject->findMethod[0], ...$subject->findMethod[1])
             ->first();
 
         if (empty($entity)) {
-            $this->_error($subject);
+            $this->error($subject);
 
             return null;
         }
 
         $subject->set(['entity' => $entity]);
 
-        return $this->_success($subject);
+        return $this->success($subject);
     }
 
     /**
@@ -87,13 +87,13 @@ class ForgotPasswordAction extends BaseAction
      *
      * @return array
      */
-    protected function _getFindConfig(): array
+    protected function getFindConfig(): array
     {
-        $finder = $this->_extractFinder();
+        $finder = $this->extractFinder();
         if (isset($finder[1]['conditions'])) {
-            $finder[1]['conditions'] = array_merge($finder[1]['conditions'], $this->_request()->getData());
+            $finder[1]['conditions'] = array_merge($finder[1]['conditions'], $this->request()->getData());
         } else {
-            $finder[1]['conditions'] = $this->_request()->getData();
+            $finder[1]['conditions'] = $this->request()->getData();
         }
 
         return $finder;
@@ -105,14 +105,14 @@ class ForgotPasswordAction extends BaseAction
      * @param \Crud\Event\Subject $subject Event subject
      * @return \Cake\Http\Response|null
      */
-    protected function _success(Subject $subject): ?Response
+    protected function success(Subject $subject): ?Response
     {
         $subject->set(['success' => true]);
 
-        $this->_trigger('afterForgotPassword', $subject);
+        $this->trigger('afterForgotPassword', $subject);
         $this->setFlash('success', $subject);
 
-        return $this->_redirect($subject, $this->_request()->getPath());
+        return $this->redirect($subject, $this->request()->getPath());
     }
 
     /**
@@ -121,12 +121,12 @@ class ForgotPasswordAction extends BaseAction
      * @param \Crud\Event\Subject $subject Event subject
      * @return void
      */
-    protected function _error(Subject $subject): void
+    protected function error(Subject $subject): void
     {
         $subject->set(['success' => false, 'entity' => null]);
 
-        $this->_trigger('afterForgotPassword', $subject);
+        $this->trigger('afterForgotPassword', $subject);
         $this->setFlash('error', $subject);
-        $this->_trigger('beforeRender', $subject);
+        $this->trigger('beforeRender', $subject);
     }
 }

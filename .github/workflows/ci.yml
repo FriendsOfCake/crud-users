@@ -13,5 +13,5 @@ permissions:
 
 jobs:
   cs-stan:
-    uses: ADmad/.github/.github/workflows/cs-stan.yml@master
+    uses: ADmad/.github/.github/workflows/cs-stan.yml@cake6
     secrets: inherit

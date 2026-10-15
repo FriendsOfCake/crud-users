@@ -19,7 +19,7 @@ class RegisterAction extends BaseAction
     use ViewTrait;
     use ViewVarTrait;
 
-    protected array $_defaultConfig = [
+    protected array $defaultConfig = [
         'enabled' => true,
         'scope' => 'entity',
         'inflection' => 'singular',
@@ -60,17 +60,17 @@ class RegisterAction extends BaseAction
      *
      * @return void
      */
-    protected function _get(): void
+    protected function handleGet(): void
     {
-        $subject = $this->_subject([
+        $subject = $this->subject([
             'success' => true,
-            'entity' => $this->_entity(
-                $this->_request()->getQueryParams() ?: [],
+            'entity' => $this->entity(
+                $this->request()->getQueryParams() ?: [],
                 $this->saveOptions(),
             ),
         ]);
 
-        $this->_trigger('beforeRender', $subject);
+        $this->trigger('beforeRender', $subject);
     }
 
     /**
@@ -78,23 +78,23 @@ class RegisterAction extends BaseAction
      *
      * @return \Cake\Http\Response|null
      */
-    protected function _post(): ?Response
+    protected function handlePost(): ?Response
     {
-        $subject = $this->_subject([
-            'entity' => $this->_entity($this->_request()->getData(), $this->saveOptions()),
+        $subject = $this->subject([
+            'entity' => $this->entity($this->request()->getData(), $this->saveOptions()),
             'saveMethod' => $this->saveMethod(),
             'saveOptions' => $this->saveOptions(),
         ]);
 
-        $this->_trigger('beforeRegister', $subject);
+        $this->trigger('beforeRegister', $subject);
 
         /** @var callable $callback */
-        $callback = [$this->_model(), $subject->saveMethod];
+        $callback = [$this->model(), $subject->saveMethod];
         if ($callback($subject->entity, $subject->saveOptions)) {
-            return $this->_success($subject);
+            return $this->success($subject);
         }
 
-        $this->_error($subject);
+        $this->error($subject);
 
         return null;
     }
@@ -105,16 +105,16 @@ class RegisterAction extends BaseAction
      * @param \Crud\Event\Subject $subject Event subject
      * @return \Cake\Http\Response|null
      */
-    protected function _success(Subject $subject): ?Response
+    protected function success(Subject $subject): ?Response
     {
         $subject->set(['success' => true, 'created' => true]);
 
-        $this->_trigger('afterRegister', $subject);
+        $this->trigger('afterRegister', $subject);
         $this->setFlash('success', $subject);
 
         $redirectUrl = $this->getConfig('redirectUrl');
 
-        return $this->_redirect($subject, $redirectUrl);
+        return $this->redirect($subject, $redirectUrl);
     }
 
     /**
@@ -123,12 +123,12 @@ class RegisterAction extends BaseAction
      * @param \Crud\Event\Subject $subject Event subject
      * @return void
      */
-    protected function _error(Subject $subject): void
+    protected function error(Subject $subject): void
     {
         $subject->set(['success' => false, 'created' => false]);
 
-        $this->_trigger('afterRegister', $subject);
+        $this->trigger('afterRegister', $subject);
         $this->setFlash('error', $subject);
-        $this->_trigger('beforeRender', $subject);
+        $this->trigger('beforeRender', $subject);
     }
 }

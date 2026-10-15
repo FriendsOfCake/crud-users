@@ -25,7 +25,7 @@ class VerifyAction extends BaseAction
     use ViewTrait;
     use ViewVarTrait;
 
-    protected array $_defaultConfig = [
+    protected array $defaultConfig = [
         'enabled' => true,
         'scope' => 'entity',
         'findMethod' => 'all',
@@ -73,16 +73,16 @@ class VerifyAction extends BaseAction
      * @param string|null $token Token
      * @return \Cake\Http\Response|null
      */
-    protected function _get(?string $token = null): ?Response
+    protected function handleGet(?string $token = null): ?Response
     {
-        $token = $this->_token($token);
-        $entity = $this->_verify($token);
+        $token = $this->token($token);
+        $entity = $this->verify($token);
 
-        if ($this->_save($entity)) {
-            return $this->_success();
+        if ($this->save($entity)) {
+            return $this->success();
         }
 
-        $this->_error();
+        $this->error();
 
         return null;
     }
@@ -93,24 +93,24 @@ class VerifyAction extends BaseAction
      * @param \Cake\Datasource\EntityInterface $entity Entity
      * @return \Cake\Datasource\EntityInterface|false
      */
-    protected function _save(EntityInterface $entity): EntityInterface|false
+    protected function save(EntityInterface $entity): EntityInterface|false
     {
-        $entity = $this->_model()->patchEntity(
+        $entity = $this->model()->patchEntity(
             $entity,
             ['verified' => true],
             $this->saveOptions(),
         );
-        $subject = $this->_subject(['entity' => $entity]);
+        $subject = $this->subject(['entity' => $entity]);
 
-        $this->_trigger('beforeSave', $subject);
+        $this->trigger('beforeSave', $subject);
 
         /** @var callable $callback */
-        $callback = [$this->_model(), $this->saveMethod()];
+        $callback = [$this->model(), $this->saveMethod()];
 
         /** @var \Cake\Datasource\EntityInterface|false $success */
         $success = $callback($entity, $this->saveOptions());
 
-        $this->_trigger('afterSave', $subject);
+        $this->trigger('afterSave', $subject);
 
         return $success;
     }
@@ -120,16 +120,16 @@ class VerifyAction extends BaseAction
      *
      * @return \Cake\Http\Response|null
      */
-    protected function _success(): ?Response
+    protected function success(): ?Response
     {
-        $subject = $this->_subject(['success' => true]);
+        $subject = $this->subject(['success' => true]);
 
-        $this->_trigger('afterVerify', $subject);
+        $this->trigger('afterVerify', $subject);
         $this->setFlash('success', $subject);
 
         $redirectUrl = $this->getConfig('redirectUrl');
 
-        return $this->_redirect($subject, $redirectUrl);
+        return $this->redirect($subject, $redirectUrl);
     }
 
     /**
@@ -137,12 +137,12 @@ class VerifyAction extends BaseAction
      *
      * @return void
      */
-    protected function _error(): void
+    protected function error(): void
     {
-        $subject = $this->_subject(['success' => false]);
+        $subject = $this->subject(['success' => false]);
 
-        $this->_trigger('afterVerify', $subject);
+        $this->trigger('afterVerify', $subject);
         $this->setFlash('error', $subject);
-        $this->_trigger('beforeRender', $subject);
+        $this->trigger('beforeRender', $subject);
     }
 }

@@ -12,7 +12,7 @@ class LoginAction extends BaseAction
 {
     use RedirectTrait;
 
-    protected array $_defaultConfig = [
+    protected array $defaultConfig = [
         'enabled' => true,
         'messages' => [
             'success' => [
@@ -30,20 +30,20 @@ class LoginAction extends BaseAction
      *
      * @return \Cake\Http\Response|null
      */
-    protected function _get(): ?Response
+    protected function handleGet(): ?Response
     {
         /** @psalm-suppress UndefinedMagicPropertyFetch,UndefinedMagicMethod */
-        $result = $this->_controller()->Authentication->getResult();
-        $subject = $this->_subject([
+        $result = $this->controller()->Authentication->getResult();
+        $subject = $this->subject([
             'success' => true,
             'result' => $result,
         ]);
 
         if ($result && $result->isValid()) {
-            return $this->_success($subject);
+            return $this->success($subject);
         }
 
-        $this->_trigger('beforeRender', $subject);
+        $this->trigger('beforeRender', $subject);
 
         return null;
     }
@@ -53,19 +53,19 @@ class LoginAction extends BaseAction
      *
      * @return \Cake\Http\Response|null
      */
-    protected function _post(): ?Response
+    protected function handlePost(): ?Response
     {
         /** @psalm-suppress UndefinedMagicPropertyFetch */
-        $result = $this->_controller()->Authentication->getResult();
-        $subject = $this->_subject([
+        $result = $this->controller()->Authentication->getResult();
+        $subject = $this->subject([
             'result' => $result,
         ]);
 
         if ($result && $result->isValid()) {
-            return $this->_success($subject);
+            return $this->success($subject);
         }
 
-        $this->_error($subject);
+        $this->error($subject);
 
         return null;
     }
@@ -76,23 +76,23 @@ class LoginAction extends BaseAction
      * @param \Crud\Event\Subject $subject Event subject.
      * @return \Cake\Http\Response|null
      */
-    protected function _success(Subject $subject): ?Response
+    protected function success(Subject $subject): ?Response
     {
         /** @psalm-suppress UndefinedMagicPropertyFetch */
         $subject->set([
             'success' => true,
-            'identity' => $this->_controller()->Authentication->getIdentity(),
+            'identity' => $this->controller()->Authentication->getIdentity(),
         ]);
 
-        if ($this->_request()->is('post')) {
+        if ($this->request()->is('post')) {
             $this->setFlash('success', $subject);
         }
 
         /** @psalm-suppress UndefinedMagicMethod,UndefinedMethod */
-        $redirectUrl = $this->_controller()->Authentication->getLoginRedirect()
+        $redirectUrl = $this->controller()->Authentication->getLoginRedirect()
                 ?? $this->getConfig('redirectUrl');
 
-        return $this->_redirect($subject, $redirectUrl);
+        return $this->redirect($subject, $redirectUrl);
     }
 
     /**
@@ -101,11 +101,11 @@ class LoginAction extends BaseAction
      * @param \Crud\Event\Subject $subject Event subject
      * @return void
      */
-    protected function _error(Subject $subject): void
+    protected function error(Subject $subject): void
     {
         $subject->set(['success' => false]);
 
         $this->setFlash('error', $subject);
-        $this->_trigger('beforeRender', $subject);
+        $this->trigger('beforeRender', $subject);
     }
 }

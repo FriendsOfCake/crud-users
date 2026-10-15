@@ -15,4 +15,4 @@ The URL to redirect to on success.
 
     // OR
 
-    $this->Crud->action()->config('redirectUrl', '/');
+    $this->Crud->action()->setConfig('redirectUrl', '/');

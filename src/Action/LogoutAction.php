@@ -11,7 +11,7 @@ class LogoutAction extends BaseAction
 {
     use RedirectTrait;
 
-    protected array $_defaultConfig = [
+    protected array $defaultConfig = [
         'enabled' => true,
         'messages' => [
             'success' => [
@@ -26,13 +26,13 @@ class LogoutAction extends BaseAction
      *
      * @return \Cake\Http\Response|null
      */
-    protected function _get(): ?Response
+    protected function handleGet(): ?Response
     {
-        $subject = $this->_subject();
-        $this->_trigger('beforeLogout', $subject);
+        $subject = $this->subject();
+        $this->trigger('beforeLogout', $subject);
 
         /** @psalm-suppress UndefinedMagicPropertyFetch */
-        $redirectUrl = $this->_controller()->Authentication->logout();
+        $redirectUrl = $this->controller()->Authentication->logout();
         $redirectUrl = $this->getConfig('redirectUrl', $redirectUrl);
         if ($redirectUrl === false) {
             $redirectUrl = ['controller' => 'Users', 'action' => 'login'];
@@ -43,10 +43,10 @@ class LogoutAction extends BaseAction
             'redirectUrl' => $redirectUrl,
         ]);
 
-        $this->_trigger('afterLogout', $subject);
+        $this->trigger('afterLogout', $subject);
         $this->setFlash('success', $subject);
 
-        return $this->_redirect(
+        return $this->redirect(
             $subject,
             $subject->redirectUrl,
         );

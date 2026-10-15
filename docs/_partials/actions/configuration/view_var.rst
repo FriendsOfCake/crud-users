@@ -7,7 +7,7 @@ viewVar
 
 Change the name of the variable which contains the result of a ``index`` or ``view`` action query result.
 
-To get the current configured ``viewVar`` call the ``viewViar`` method without any arguments.
+To get the current configured ``viewVar`` call the ``viewVar`` method without any arguments.
 
 .. code-block:: phpinline
 

@@ -13,19 +13,19 @@ parameters:
 			path: src/Action/LogoutAction.php
 
 		-
-			message: '#^Parameter \#1 \$type of method Cake\\ORM\\Table\<array\>\:\:find\(\) expects string, \$this\(CrudUsers\\Action\\ResetPasswordAction\)\|array\|string given\.$#'
+			message: '#^Parameter \#1 \$type of method Cake\\ORM\\Table\<array,Cake\\Datasource\\EntityInterface\>\:\:find\(\) expects string, \$this\(CrudUsers\\Action\\ResetPasswordAction\)\|array\|string given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/Action/ResetPasswordAction.php
 
 		-
-			message: '#^Unable to resolve the template type TEntity in call to method Cake\\ORM\\Table\<array\>\:\:patchEntity\(\)$#'
+			message: '#^Unable to resolve the template type TPatchedEntity in call to method Cake\\ORM\\Table\<array,Cake\\Datasource\\EntityInterface\>\:\:patchEntity\(\)$#'
 			identifier: argument.templateType
 			count: 1
 			path: src/Action/ResetPasswordAction.php
 
 		-
-			message: '#^Parameter \#1 \$type of method Cake\\ORM\\Table\<array\>\:\:find\(\) expects string, \$this\(CrudUsers\\Action\\VerifyAction\)\|array\|string given\.$#'
+			message: '#^Parameter \#1 \$type of method Cake\\ORM\\Table\<array,Cake\\Datasource\\EntityInterface\>\:\:find\(\) expects string, \$this\(CrudUsers\\Action\\VerifyAction\)\|array\|string given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/Action/VerifyAction.php
